@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Syllabus extends Model
 {
     protected $guarded = [];
+    protected $table = 'syllabuses';
 
     public function course()
     {
