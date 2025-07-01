@@ -7,9 +7,7 @@ use Illuminate\Http\Request;
 
 class InstructorController extends Controller
 {
-    /**
-     * Store a new review for the instructor.
-     */
+
     public function store(Request $request, $instructor_id)
     {
         $request->validate([
@@ -43,9 +41,7 @@ class InstructorController extends Controller
         ], 201);
     }
 
-    /**
-     * Display a list of reviews for the instructor.
-     */
+
     public function index($instructorId)
     {
         $instructor = Instructor::findOrFail($instructorId);
@@ -63,8 +59,8 @@ class InstructorController extends Controller
 
    public function topInstructors()
     {
-        $instructors = Instructor::withAvg('reviews', 'rating')  // يحسب متوسط تقييمات كل مدرب
-            ->orderByDesc('reviews_avg_rating')                  // يرتب حسب متوسط التقييم تنازليًا
+        $instructors = Instructor::withAvg('reviews', 'rating')
+            ->orderByDesc('reviews_avg_rating')                 
             ->get();
 
         return response()->json([
