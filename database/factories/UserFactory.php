@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
-    // تحديد الموديل المرتبط بالفاتوري
     protected $model = User::class;
 
     public function definition()
@@ -26,6 +25,10 @@ class UserFactory extends Factory
                 $this->faker->languageCode(),
                 $this->faker->languageCode(),
             ]),
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->lastName(),
+            'username' => fake()->username(),
+            'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => bcrypt('password'), // كلمة مرور افتراضية مشفرة
             'remember_token' => Str::random(10),

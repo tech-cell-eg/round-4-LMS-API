@@ -22,9 +22,20 @@ class DatabaseSeeder extends Seeder
         // ]);
     User::factory()->count(5)->create();
 
-
     Instructor::factory()->count(5)->create();
 
+        $this->call(InstructorSeeder::class);
+        $this->call(CategorySeeder::class);
+        $this->call(CourseSeeder::class);
+        $this->call(SyllabusSeeder::class);
+        $this->call(LessonSeeder::class);
+ 
+        User::factory()->create([
+            'first_name' => 'Test',
+            'last_name' => 'User',
+            'username' => 'testuser',
+            'email' => 'test@example.com',
+        ]);
 
     }
 }
