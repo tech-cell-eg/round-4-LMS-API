@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('cart_id')->constrained()->onDelete('cascade');
             $table->foreignId('credit_card_id')->nullable()->constrained('credit_cards')->onDelete('set null');
             $table->enum( 'payment_method', ['credit_card', 'paypal'])->default('credit_card');
-            $table->float('amount', 8, 2);
+            $table->decimal('amount', 8, 2);
             $table->string('country')->unique();
             $table->string('state');
             $table->timestamps();
