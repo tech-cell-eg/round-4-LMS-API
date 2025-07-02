@@ -49,6 +49,8 @@ class CategorySeeder extends Seeder
             'title'       => 'Cybersecurity',
             'slug'        => Str::slug('Cybersecurity'),
             'description' => 'Protecting systems and networks from digital attacks.',
-        ]);
-    }
+          
+         ]);
+     }       
+
 }
