@@ -23,9 +23,8 @@ class InstructorProfileController extends Controller
         if (!$instructor) {
             return response()->json([
                 'message' => 'Instructor not found'
-            ], 404);
+            ], 200);
         }
-
 
         return response()->json([
         new InstructorProfileResource($instructor)

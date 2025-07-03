@@ -33,8 +33,14 @@ use App\Http\Controllers\InstructorController;
 
 
   Route::group(['middleware' => ['auth:sanctum']], function () {
-      Route::get('/my-courses', [ProfileController::class, 'myCourses']);
+      Route::get('instructors/{instructorUsername}', [InstructorProfileController::class, 'show'])->name('instructor.show');
 
-      Route::get('instructors/{instructorUsername}', [InstructorProfileController::class, 'show']);
+      //student profile
+      Route::get('/my-courses', [ProfileController::class, 'myCourses']);
+      Route::get('/my-instructors', [ProfileController::class, 'myInstructors']);
+      Route::get('/my-reviews', [ProfileController::class, 'myReviews']);
+      Route::get('/my-chats', [ProfileController::class, 'myChats']);
+      Route::get('/my-chats/{chatId}', [ProfileController::class, 'GetMessages']);
+
 
   });

@@ -20,16 +20,24 @@ class InstructorProfileResource extends JsonResource
             'last_name' => $this->last_name,
             'headline' => $this->headline,
             'image' => $this->image,
-            'socials' => new SocialLInksResource($this->whenLoaded('social')),
 
-            'total_reviews' => $this->reviews()->count(),
-            'average_rating' => $this->reviews()->avg('rating'),
-            'total_students' => $this->courses->flatMap->enrollments->pluck('user_id')->unique()->count(),
+            $this->mergeWhen(
+                $request->routeIs('instructor.show'),
+                [
+                    'socials' => new SocialLInksResource($this->whenLoaded('social')),
 
-            'about' => $this->about,
-            'areas_of_expertise' => $this->areas_of_expertise,
-            'experience' => $this->experience,
+                    'total_reviews' => $this->reviews()->count(),
+                    'average_rating' => $this->reviews()->avg('rating'),
+                    'total_students' => $this->courses->flatMap->enrollments->pluck('user_id')->unique()->count(),
+
+                    'about' => $this->about,
+                    'areas_of_expertise' => $this->areas_of_expertise,
+                    'experience' => $this->experience,
+                ]
+            ),
 
         ];
+
+
     }
 }

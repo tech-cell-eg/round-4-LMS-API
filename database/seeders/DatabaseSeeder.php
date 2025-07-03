@@ -16,10 +16,14 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+         User::factory()->create([
+            'first_name' => 'user',
+            'last_name' => 'user',
+            'username' => 'username',
+            'email' => 'user@user',
+             'password' => bcrypt('password'),
+         ]);
+
     User::factory()->count(5)->create();
 
     Instructor::factory()->count(5)->create();
@@ -30,19 +34,13 @@ class DatabaseSeeder extends Seeder
         $this->call(SyllabusSeeder::class);
         $this->call(LessonSeeder::class);
         $this->call(EnrollmentAndDoneLessonSeeder::class);
+        $this->call(ChatAndMessageSeeder::class);
 
 
         $this->call([
             ReviewSeeder::class,
             SocialSeeder::class,
         ]);
-
-//        User::factory()->create([
-//            'first_name' => 'Test',
-//            'last_name' => 'User',
-//            'username' => 'testuser',
-//            'email' => 'test@example.com',
-//        ]);
 
     }
 }

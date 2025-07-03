@@ -34,6 +34,10 @@ class EnrolledCoursesResource extends JsonResource
             'instructor' => $course->instructor->first_name . ' ' . $course->instructor->last_name,
             'progress' => $progress,
             'purchase_date' => $this->created_at->toDateString(),
+            'average_rating' => $course->reviews()->avg('rating'),
+            'total_reviews' => $course->reviews()->count(),
+            'total_lessons' => $course->syllabuses?->flatMap->lessons->count() ?? 0,
+            'total_hours' => round($course->syllabuses?->flatMap->lessons->sum('duration') / 3600) ?? 0,
         ];
     }
 }
