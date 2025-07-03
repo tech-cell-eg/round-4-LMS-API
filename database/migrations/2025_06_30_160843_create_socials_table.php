@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('socials', function (Blueprint $table) {
             $table->id();
-            $table->morphs('social');
+            $table->morphs('sociable');
             $table->string('website')->nullable();
             $table->string('facebook')->nullable();
             $table->string('x')->nullable();

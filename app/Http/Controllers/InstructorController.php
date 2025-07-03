@@ -75,9 +75,10 @@ class InstructorController extends Controller
     public function showInstructorCourses($instructorId)
     {
         $instructor = Instructor::findOrFail($instructorId);
+
         $courses = $instructor->courses()->with([
             'reviews',
-            'syllabuses',
+            'syllabuses.lessons',  // يجب تحميل الدروس مع السيلابوسز
             'instructors'
         ])->get();
 
@@ -86,6 +87,7 @@ class InstructorController extends Controller
                 'message' => 'No courses found for this instructor'
             ], 404);
         }
+
         return CourseResource::collection($courses);
     }
 }

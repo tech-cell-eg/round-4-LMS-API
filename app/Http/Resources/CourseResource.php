@@ -15,14 +15,14 @@ class CourseResource extends JsonResource
     public function toArray(Request $request): array
     {
 
-          return [
-        'title' => $this->title,
-        'instructor_name' => $this->instructor?->first_name . ' ' . $this->instructor?->last_name,
-        'reviews_count' => $this->reviews->count(),
-        'duration_hours' => $this->syllabuses->sum('duration'),
-        'lectures_count' => $this->syllabuses->count(),
-        'level' => $this->levels,
-        'price' => $this->price,
-    ];
+        return [
+            'title' => $this->title,
+'instructor_name' => $this->instructor?->first_name . ' ' . $this->instructor?->last_name,
+            'reviews_count' => $this->reviews->count(),
+            'duration_hours' => $this->syllabuses->flatMap(fn($syllabus) => $syllabus->lessons)->sum('duration'),
+            'lectures_count' => $this->syllabuses->sum(fn($syllabus) => $syllabus->lessons->count()),
+            'level' => $this->levels,
+            'price' => $this->price,
+        ];
     }
 }

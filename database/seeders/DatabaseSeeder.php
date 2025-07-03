@@ -24,10 +24,25 @@ class DatabaseSeeder extends Seeder
         // ]);
     User::factory()->count(5)->create();
 
+<<<<<<< HEAD
         Category::factory(5)->create();
         Course::factory(10)->create();
+=======
+>>>>>>> 5ec8fb9f762bfee97f93535bf05d39b6a60f8f86
     Instructor::factory()->count(5)->create();
 
+        $this->call(InstructorSeeder::class);
+        $this->call(CategorySeeder::class);
+        $this->call(CourseSeeder::class);
+        $this->call(SyllabusSeeder::class);
+        $this->call(LessonSeeder::class);
+ 
+        User::factory()->create([
+            'first_name' => 'Test',
+            'last_name' => 'User',
+            'username' => 'testuser',
+            'email' => 'test@example.com',
+        ]);
 
     }
 }
