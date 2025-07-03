@@ -33,4 +33,5 @@ class InstructorSeeder extends Seeder
                     'experience'         => 'Over ' . (2 + $i) . ' years of experience in tech and teaching.',
                 ]);
             }
+        }
 }

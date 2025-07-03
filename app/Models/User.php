@@ -88,4 +88,14 @@ class User extends Authenticatable
     {
         return $this->morphOne(Social::class, 'sociable');
     }
+
+    public function courses()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
+    public function lessons()
+    {
+        return $this->hasMany(DoneLesson::class);
+    }
 }

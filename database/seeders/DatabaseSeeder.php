@@ -29,13 +29,20 @@ class DatabaseSeeder extends Seeder
         $this->call(CourseSeeder::class);
         $this->call(SyllabusSeeder::class);
         $this->call(LessonSeeder::class);
- 
-        User::factory()->create([
-            'first_name' => 'Test',
-            'last_name' => 'User',
-            'username' => 'testuser',
-            'email' => 'test@example.com',
+        $this->call(EnrollmentAndDoneLessonSeeder::class);
+
+
+        $this->call([
+            ReviewSeeder::class,
+            SocialSeeder::class,
         ]);
+
+//        User::factory()->create([
+//            'first_name' => 'Test',
+//            'last_name' => 'User',
+//            'username' => 'testuser',
+//            'email' => 'test@example.com',
+//        ]);
 
     }
 }

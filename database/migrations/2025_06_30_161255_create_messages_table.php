@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
-            $table->morphs('sender');
+            $table->morphs('senderable');
             $table->string('message');
             $table->timestamp('read_at')->nullable();
             $table->timestamps();
