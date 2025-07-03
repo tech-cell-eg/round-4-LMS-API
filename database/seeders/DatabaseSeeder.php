@@ -28,8 +28,8 @@ class DatabaseSeeder extends Seeder
         $this->call(CategorySeeder::class);
         $this->call(CourseSeeder::class);
         $this->call(SyllabusSeeder::class);
-        $this->call(LessonSeeder::class);
- 
+        $this->call(LessonSeeder::class);  
+             $this->call( ReviewSeeder::class);
         User::factory()->create([
             'first_name' => 'Test',
             'last_name' => 'User',

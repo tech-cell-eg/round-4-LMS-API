@@ -12,10 +12,10 @@ class Course extends Model
        'languages' => 'array',
     ];
 
-    public function instructors()
-    {
-        return $this->belongsToMany(Instructor::class);
-    }
+    public function instructor()
+{
+    return $this->belongsTo(Instructor::class);
+}
 
     public function category()
     {

@@ -34,3 +34,4 @@ class InstructorSeeder extends Seeder
                 ]);
             }
 }
+}
