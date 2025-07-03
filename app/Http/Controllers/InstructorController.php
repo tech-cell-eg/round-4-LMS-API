@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\CourseResource;
+use App\Http\Resources\InstructorResource;
+use App\Models\Course;
 use App\Models\Instructor;
 use Illuminate\Http\Request;
 
@@ -57,14 +60,32 @@ class InstructorController extends Controller
         ]);
     }
 
-   public function topInstructors()
+    public function topInstructors()
     {
         $instructors = Instructor::withAvg('reviews', 'rating')
-            ->orderByDesc('reviews_avg_rating')                 
+            ->with(['courses.enrollments']) // جلب الكورسات والطلاب المسجلين فيها
+            ->orderByDesc('reviews_avg_rating')
             ->get();
 
         return response()->json([
-            'top_instructors' => $instructors,
+            'top_instructors' => InstructorResource::collection($instructors),
         ]);
+    }
+
+    public function showInstructorCourses($instructorId)
+    {
+        $instructor = Instructor::findOrFail($instructorId);
+        $courses = $instructor->courses()->with([
+            'reviews',
+            'syllabuses',
+            'instructors'
+        ])->get();
+
+        if ($courses->isEmpty()) {
+            return response()->json([
+                'message' => 'No courses found for this instructor'
+            ], 404);
+        }
+        return CourseResource::collection($courses);
     }
 }

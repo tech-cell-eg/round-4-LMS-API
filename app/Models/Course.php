@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Course extends Model
 {
+    use HasFactory;
     protected $guarded = [];
 
     protected $casts = [
@@ -14,7 +16,7 @@ class Course extends Model
 
     public function instructors()
     {
-        return $this->belongsToMany(Instructor::class);
+        return $this->belongsTo(Instructor::class);
     }
 
     public function category()

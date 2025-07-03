@@ -10,8 +10,7 @@ Route::get('/user', function (Request $request) {
 
 
 
-    Route::post('/instructors/{instructor}/review', [InstructorController::class, 'store']);
-    Route::get('/instructors/{instructor}/reviews', [InstructorController::class, 'index']);
-    Route::get('/top-instructors', [InstructorController::class, 'topInstructors']);
-
-
+Route::post('/instructors/{instructor}/review', [InstructorController::class, 'store']);
+Route::get('/instructors/{instructor}/reviews', [InstructorController::class, 'index']);
+Route::get('/top-instructors', [InstructorController::class, 'topInstructors']);
+Route::get('/instructors/{id}/courses', [InstructorController::class, 'showInstructorCourses']);
