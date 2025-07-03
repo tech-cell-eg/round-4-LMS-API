@@ -30,8 +30,6 @@ class InstructorProfileResource extends JsonResource
             'areas_of_expertise' => $this->areas_of_expertise,
             'experience' => $this->experience,
 
-            'courses' => CourseResource::collection($this->whenLoaded('courses')),
-            'reviews' => ReviewResource::collection($this->whenLoaded('reviews')),
         ];
     }
 }
