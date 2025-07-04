@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Instructor extends Model
 {
+    use HasFactory;
     protected $guarded = [];
 
     public function courses()
@@ -31,6 +33,16 @@ class Instructor extends Model
     public function reviews()
     {
         return $this->morphMany(Review::class, 'reviewable');
+    }
+
+    public function getTotalStudentsAttribute()
+    {
+        return $this->courses->sum(fn($course) => $course->enrollments->count());
+    }
+
+    public function getTotalReviewsAttribute()
+    {
+        return $this->courses->sum(fn($course) => $course->reviews->count());
     }
 
 }

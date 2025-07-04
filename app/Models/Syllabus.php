@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Syllabus extends Model
 {
+    use HasFactory;
+    protected $table = 'syllabuses';
     protected $guarded = [];
 
     public function course()
@@ -17,4 +20,6 @@ class Syllabus extends Model
     {
         return $this->hasMany(Lesson::class);
     }
+
+    
 }
