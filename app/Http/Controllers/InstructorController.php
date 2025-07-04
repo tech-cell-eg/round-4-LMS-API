@@ -17,7 +17,6 @@ class InstructorController extends Controller
 
         $instructor = Instructor::findOrFail($instructor_id);
 
-        // مؤقتًا نستخدم user_id = 1 إلى أن يتم تفعيل المصادقة
         $userId = 2;
 
         $alreadyReviewed = $instructor->reviews()
@@ -60,7 +59,7 @@ class InstructorController extends Controller
    public function topInstructors()
     {
         $instructors = Instructor::withAvg('reviews', 'rating')
-            ->orderByDesc('reviews_avg_rating')                 
+            ->orderByDesc('reviews_avg_rating')
             ->get();
 
         return response()->json([

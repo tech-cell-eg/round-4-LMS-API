@@ -48,6 +48,30 @@ class LessonSeeder extends Seeder
             'title'       => 'Binding and Events',
             'description' => 'Understanding v-model, events, and reactivity.',
         ]);
-    
+
+        Lesson::create([
+            'syllabus_id' => 4,
+            'title'       => 'Binding and Events',
+            'description' => 'Understanding v-model, events, and reactivity.',
+        ]);
+
+        Lesson::create([
+            'syllabus_id' => 4,
+            'title'       => 'Binding and Events',
+            'description' => 'Understanding v-model, events, and reactivity.',
+        ]);
+
+        Lesson::create([
+            'syllabus_id' => 5,
+            'title'       => 'Binding and Events',
+            'description' => 'Understanding v-model, events, and reactivity.',
+        ]);
+
+        Lesson::create([
+            'syllabus_id' => 5,
+            'title'       => 'Binding and Events',
+            'description' => 'Understanding v-model, events, and reactivity.',
+        ]);
+
     }
 }
