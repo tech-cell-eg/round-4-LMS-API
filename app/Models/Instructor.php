@@ -2,18 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
 
-class Instructor extends Model
+class Instructor extends Authenticatable
 {
-    use HasFactory;
+    use HasFactory, Notifiable, HasApiTokens;
+
     protected $guarded = [];
 
     public function courses()
-    {
-        return $this->hasMany(Course::class);
-    }
+  {
+      return $this->hasMany(Course::class);
+  }
 
     public function social()
     {

@@ -10,6 +10,7 @@ class Syllabus extends Model
     use HasFactory;
     protected $table = 'syllabuses';
     protected $guarded = [];
+    protected $table = 'syllabuses';
 
     public function course()
     {
