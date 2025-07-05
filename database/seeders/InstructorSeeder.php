@@ -13,11 +13,8 @@ class InstructorSeeder extends Seeder
      * Run the database seeds.
      */
 
-       public function run(): void
-        {
-            $firstNames = ['Ahmed', 'Sara', 'Youssef', 'Fatma', 'Omar', 'Nour', 'Hassan', 'Layla', 'Khaled', 'Mona'];
-            $lastNames = ['Ali', 'Ibrahim', 'Mahmoud', 'Hassan', 'Salem', 'Younes', 'Adel', 'Fouad', 'Mostafa', 'Tarek'];
-
+    public function run(): void
+    {
             for ($i = 0; $i < 10; $i++) {
                 Instructor::create([
                     'first_name'         => $firstNames[$i],
@@ -35,4 +32,4 @@ class InstructorSeeder extends Seeder
             }
         }
 }
-}
+

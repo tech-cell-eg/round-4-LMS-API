@@ -2,11 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Instructor;
-use Illuminate\Database\Seeder;
-use App\Models\User;
 use App\Models\Course;
+use App\Models\Instructor;
 use App\Models\Review;
+use App\Models\User;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 
 class ReviewSeeder extends Seeder
@@ -16,6 +17,8 @@ class ReviewSeeder extends Seeder
      */
     public function run(): void
     {
+        $user = User::first();
+        $course = Course::first();
         $students = User::all();
         $instructors = Instructor::all();
         $courses = Course::all();

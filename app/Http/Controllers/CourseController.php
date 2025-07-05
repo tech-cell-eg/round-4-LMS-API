@@ -14,12 +14,12 @@ class CourseController extends Controller
     {
         $validated = $request->validate([
             'instructor_id' => 'required|exists:instructors,id',
-            'category_id'   => 'required|exists:categories,id',
-            'title'         => 'required|string',
-            'slug'          => 'required|unique:courses,slug',
-            'overview'      => 'nullable|string',
-            'description'   => 'nullable|string',
-            'price'         => 'numeric',
+            'category_id' => 'required|exists:categories,id',
+            'title' => 'required|string',
+            'slug' => 'required|unique:courses,slug',
+            'overview' => 'nullable|string',
+            'description' => 'nullable|string',
+            'price' => 'numeric',
         ]);
         $course = Course::create($validated);
         return response()->json([
@@ -28,7 +28,7 @@ class CourseController extends Controller
         ]);
     }
 
- // Show all courses
+    // Show all courses
     public function index()
     {
     $courses = Course::with(['category', 'instructor', 'reviews', 'syllabuses.lessons'])->get();
@@ -63,7 +63,8 @@ class CourseController extends Controller
     }
     return response()->json($formattedCourses);
     }
-        private function mapLevel($level)
+  
+    private function mapLevel($level)
     {
         return match($level) {
             0 => 'Beginner',
@@ -71,36 +72,36 @@ class CourseController extends Controller
             2 => 'Advanced',
             default => 'All Levels',
         };
-    }
+     }
 
 //API to fetch courses filtered by specific category
-   public function filterByCategory($category)
-{
-    $category = Category::where('id', $category)
-                        ->orWhere('title', $category)
-                        ->first();
-    if (!$category) {
+    public function filterByCategory($category)
+    {
+        $category = Category::where('id', $category)
+            ->orWhere('title', $category)
+            ->first();
+        if (!$category) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Category not found'
+            ], 404);
+        }
+        $courses = Course::where('category_id', $category->id)->get();
         return response()->json([
-            'status' => false,
-            'message' => 'Category not found'
-        ], 404);
+            'status' => true,
+            'category' => $category->title,
+            'courses' => $courses
+        ]);
     }
-    $courses = Course::where('category_id', $category->id)->get();
-    return response()->json([
-        'status' => true,
-        'category' => $category->title,
-        'courses' => $courses
-    ]);
-}
 
     //API to fetch complete details of a single course
     public function show($id)
-{
-    $course = Course::with('syllabuses.lessons'  )->findOrFail($id);
-    return response()->json([
-        'status' => true,
-        'course' => $course,
-    ]);
-}
+    {
+        $course = Course::with('syllabuses.lessons')->findOrFail($id);
+        return response()->json([
+            'status' => true,
+            'course' => $course,
+        ]);
+    }
 
 }

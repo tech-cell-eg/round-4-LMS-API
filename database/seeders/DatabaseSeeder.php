@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Instructor;
 use App\Models\User;
+
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,6 +15,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+ 
+        User::factory()->count(5)->create();
+
+        Instructor::factory()->count(5)->create();
+
+        $this->call([
+            CategorySeeder::class,
+            InstructorSeeder::class,
+            CourseSeeder::class,
+            SyllabusSeeder::class,
+            LessonSeeder::class,
+            ReviewSeeder::class,
+        ]);
         // User::factory(10)->create();
 
         // User::factory()->create([
@@ -23,12 +37,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             CourseSeeder::class,
-        ]);
-    }
-        User::factory()->count(5)->create();
-
-        Instructor::factory()->count(5)->create();
-      
+         ]);
+          
             $this->call(InstructorSeeder::class);
             $this->call(CategorySeeder::class);
             $this->call(CourseSeeder::class);
