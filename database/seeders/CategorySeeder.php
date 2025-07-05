@@ -13,44 +13,44 @@ class CategorySeeder extends Seeder
     /**
      * Run the database seeds.
      */
-     public function run(): void
-    {
-        Category::create([
-            'title'       => 'Web Development',
-            'slug'        => Str::slug('Web Development'),
+   public function run(): void
+{
+    $categories = [
+        [
+            'title' => 'Web Development',
             'description' => 'All about building websites and web applications.',
-        ]);
-
-        Category::create([
-            'title'       => 'Mobile Apps',
-            'slug'        => Str::slug('Mobile Apps'),
+        ],
+        [
+            'title' => 'Mobile Apps',
             'description' => 'Creating apps for iOS and Android platforms.',
-        ]);
-
-        Category::create([
-            'title'       => 'Data Science',
-            'slug'        => Str::slug('Data Science'),
+        ],
+        [
+            'title' => 'Data Science',
             'description' => 'Data analysis, machine learning, and AI topics.',
-        ]);
-
-        Category::create([
-            'title'       => 'Design',
-            'slug'        => Str::slug('Design'),
+        ],
+        [
+            'title' => 'Design',
             'description' => 'UI/UX, graphic design, and creative arts.',
-        ]);
-
-        Category::create([
-            'title'       => 'Marketing',
-            'slug'        => Str::slug('Marketing'),
+        ],
+        [
+            'title' => 'Marketing',
             'description' => 'Digital marketing, SEO, and advertising strategies.',
-        ]);
-
-        Category::create([
-            'title'       => 'Cybersecurity',
-            'slug'        => Str::slug('Cybersecurity'),
+        ],
+        [
+            'title' => 'Cybersecurity',
             'description' => 'Protecting systems and networks from digital attacks.',
-          
-         ]);
-     }       
+        ],
+    ];
+
+    foreach ($categories as $category) {
+        Category::firstOrCreate(
+            ['title' => $category['title']],  // شرط البحث
+            [
+                'slug' => Str::slug($category['title']),
+                'description' => $category['description'],
+            ]
+        );
+    }
+}
 
 }

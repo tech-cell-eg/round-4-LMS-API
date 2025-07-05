@@ -18,22 +18,20 @@ class CourseFactory extends Factory
      */
     public function definition(): array
     {
-   return [
-            'title' => $this->faker->sentence(3),
-            'slug' => $this->faker->slug(),
-            'category_id' => Category::factory(), // ينشئ صنف جديد تلقائيًا ويربطه
-            'instructor_id' => Instructor::factory(),
-            'overview' => $this->faker->paragraph(),
-            'description' => $this->faker->text(),
-            'certifications' => $this->faker->words(3, true),
-            'languages' => ['English', 'Arabic'],
-            'levels' => $this->faker->numberBetween(0, 2), // مثلاً 0: مبتدئ، 1: متوسط، 2: متقدم
-            'price' => $this->faker->randomFloat(2, 0, 200),
-            'discount' => $this->faker->randomFloat(2, 0, 50),
-            'tax' => $this->faker->randomFloat(2, 0, 20),
-            'image' => null,
-            'created_at' => now(),
-            'updated_at' => now(),
-        ];
+return [
+    'slug' => $this->faker->unique()->slug,
+    'category_id' => Category::factory(),
+    'instructor_id' => Instructor::factory(),
+    'title' => $this->faker->sentence,
+    'image' => $this->faker->imageUrl(),
+    'overview' => $this->faker->paragraph,
+    'description' => $this->faker->text,
+    'certifications' => $this->faker->sentence,
+    'languages' => ['ar', 'en'],
+    'levels' => $this->faker->numberBetween(1, 3),
+    'price' => $this->faker->randomFloat(2, 100, 1000),
+    'discount' => $this->faker->randomFloat(2, 0, 50),
+    'tax' => $this->faker->randomFloat(2, 0, 15),
+];
     }
 }

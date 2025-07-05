@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Course extends Model
 {
@@ -14,7 +14,7 @@ class Course extends Model
        'languages' => 'array',
     ];
 
-    public function instructors()
+    public function instructor()
     {
         return $this->belongsTo(Instructor::class);
     }

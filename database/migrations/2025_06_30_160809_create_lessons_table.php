@@ -16,9 +16,9 @@ return new class extends Migration
             $table->foreignId('syllabus_id')->constrained('syllabuses')->onDelete('cascade');
             $table->string('title');
             $table->text('description')->nullable();
+            $table->float('duration')->default(0);
             $table->string('video_url')->nullable();
-            $table->integer('duration')->nullable();
-            $table->timestamps();   
+            $table->timestamps();
         });
     }
 

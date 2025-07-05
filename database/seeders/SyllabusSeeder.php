@@ -61,6 +61,6 @@ class SyllabusSeeder extends Seeder
             'description' => 'Learn how to optimize content for search engines.',
         ]);
     }
-    
+
 }
 
