@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\Categories\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\Api\Student\CartController;
+
 
   Route::controller(AuthController::class)->group(function () {
       Route::post('register', 'register');
@@ -31,16 +33,21 @@ use App\Http\Controllers\InstructorController;
   Route::get('/courses/{id}', [CourseController::class, 'show']);
   Route::get('/categories', [CategoryController::class, 'index']);
 
-
   Route::group(['middleware' => ['auth:sanctum']], function () {
       Route::get('instructors/{instructorUsername}', [InstructorProfileController::class, 'show'])->name('instructor.show');
-
-      //student profile
       Route::get('/my-courses', [ProfileController::class, 'myCourses']);
       Route::get('/my-instructors', [ProfileController::class, 'myInstructors']);
       Route::get('/my-reviews', [ProfileController::class, 'myReviews']);
       Route::get('/my-chats', [ProfileController::class, 'myChats']);
       Route::get('/my-chats/{chatId}', [ProfileController::class, 'GetMessages']);
 
+ });
 
-  });
+  Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/cart', [CartController::class, 'index']);             
+    Route::post('/cart/add', [CartController::class, 'add']);           
+    Route::delete('/cart/remove/{course_id}', [CartController::class, 'remove']); 
+    Route::post('/cart/checkout', [CartController::class, 'checkout']);  
+    //Route::get('/my-courses', [CartController::class, 'registeredCourses']);
+ 
+});

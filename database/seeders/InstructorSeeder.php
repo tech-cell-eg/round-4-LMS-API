@@ -35,3 +35,4 @@ class InstructorSeeder extends Seeder
             }
         }
 }
+}

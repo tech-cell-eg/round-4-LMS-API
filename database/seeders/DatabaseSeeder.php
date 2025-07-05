@@ -24,23 +24,19 @@ class DatabaseSeeder extends Seeder
              'password' => bcrypt('password'),
          ]);
 
-    User::factory()->count(5)->create();
+        User::factory()->count(5)->create();
 
-    Instructor::factory()->count(5)->create();
-
-        $this->call(InstructorSeeder::class);
-        $this->call(CategorySeeder::class);
-        $this->call(CourseSeeder::class);
-        $this->call(SyllabusSeeder::class);
-        $this->call(LessonSeeder::class);
-        $this->call(EnrollmentAndDoneLessonSeeder::class);
-        $this->call(ChatAndMessageSeeder::class);
-
-
-        $this->call([
-            ReviewSeeder::class,
-            SocialSeeder::class,
-        ]);
-
-    }
+        Instructor::factory()->count(5)->create();
+      
+            $this->call(InstructorSeeder::class);
+            $this->call(CategorySeeder::class);
+            $this->call(CourseSeeder::class);
+            $this->call(SyllabusSeeder::class);
+            $this->call(LessonSeeder::class);
+            $this->call(EnrollmentAndDoneLessonSeeder::class);
+            $this->call(ChatAndMessageSeeder::class);
+            $this->call(LessonSeeder::class);  
+            $this->call(ReviewSeeder::class);
+            $this->call(SocialSeeder::class);
+        }
 }
