@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Instructor;
+use Illuminate\Database\Seeder;
+use App\Models\User;
 use App\Models\Course;
 use App\Models\Review;
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 
 class ReviewSeeder extends Seeder
@@ -16,18 +16,38 @@ class ReviewSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::all();
+        $students = User::all();
+        $instructors = Instructor::all();
+        $courses = Course::all();
 
-        // Get up to 10 courses
-        $courses = Course::take(10)->get();
+        // Add reviews for instructors
+        foreach ($instructors as $instructor) {
+            $randomStudents = $students->random(min(5, $students->count()));
 
-        foreach ($courses as $course) {
-            // Choose a random number of users (2-5) to review each course
-            $randomUsers = $users->random(min(5, $users->count()));
-
-            foreach ($randomUsers as $user) {
+            foreach ($randomStudents as $student) {
                 Review::create([
-                    'user_id'         => $user->id,
+                    'user_id'         => $student->id,
+                    'reviewable_id'   => $instructor->id,
+                    'reviewable_type' => Instructor::class,
+                    'rating'          => Arr::random([3.5, 4.0, 4.5, 5.0]),
+                    'comment'         => Arr::random([
+                        'Excellent instructor!',
+                        'Very helpful and clear.',
+                        'Loved the sessions.',
+                        'Needs more examples sometimes.',
+                        'Highly recommend this instructor.',
+                    ]),
+                ]);
+            }
+        }
+
+        // Add reviews for courses
+        foreach ($courses as $course) {
+            $randomStudents = $students->random(min(5, $students->count()));
+
+            foreach ($randomStudents as $student) {
+                Review::create([
+                    'user_id'         => $student->id,
                     'reviewable_id'   => $course->id,
                     'reviewable_type' => Course::class,
                     'rating'          => Arr::random([3.5, 4.0, 4.5, 5.0]),

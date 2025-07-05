@@ -13,9 +13,9 @@ class Course extends Model
     ];
 
     public function instructor()
-{
-    return $this->belongsTo(Instructor::class);
-}
+    {
+        return $this->belongsTo(Instructor::class);
+    }
 
     public function category()
     {
