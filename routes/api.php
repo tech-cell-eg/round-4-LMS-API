@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\Categories\CategoryController;
@@ -27,3 +28,12 @@ use App\Http\Controllers\InstructorController;
   Route::get('/courses/{id}', [CourseController::class, 'show']);
   Route::get('/categories', [CategoryController::class, 'index']);
   
+
+      Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/cart', [CartController::class, 'index']);             
+    Route::post('/cart/add', [CartController::class, 'add']);           
+    Route::delete('/cart/remove/{course_id}', [CartController::class, 'remove']); 
+    Route::post('/cart/checkout', [CartController::class, 'checkout']);  
+    Route::get('/my-courses', [CartController::class, 'registeredCourses']);
+ 
+});

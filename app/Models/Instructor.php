@@ -15,10 +15,10 @@ class Instructor extends Authenticatable
 
     protected $guarded = [];
 
-    public function courses()
-    {
-        return $this->hasMany(Course::class);
-    }
+  public function courses()
+{
+    return $this->hasMany(Course::class);
+}
 
     public function social()
     {
