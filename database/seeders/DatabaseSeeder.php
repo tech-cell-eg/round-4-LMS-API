@@ -16,14 +16,15 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-         User::factory()->create([
-            'first_name' => 'user',
-            'last_name' => 'user',
-            'username' => 'username',
-            'email' => 'user@user',
-             'password' => bcrypt('password'),
-         ]);
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ])->withoutOverwriting();
 
+        $this->call([
+            CourseSeeder::class,
+        ]);
+    }
         User::factory()->count(5)->create();
 
         Instructor::factory()->count(5)->create();

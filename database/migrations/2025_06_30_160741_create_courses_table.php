@@ -14,8 +14,12 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->string('slug')->unique();
-            $table->foreignId('category_id')->constrained('categories')->onDelete('cascade');
-            $table->foreignId('instructor_id')->constrained('instructors')->onDelete('cascade');
+            $table->foreignId('category_id')
+            ->constrained('categories')
+            ->onDelete('cascade');
+            $table->foreignId('instructor_id')
+            ->constrained('instructors')
+            ->onDelete('cascade');
             $table->string('title');
             $table->string('image')->nullable();
             $table->text('overview')->nullable();
