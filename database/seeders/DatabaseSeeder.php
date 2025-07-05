@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-
+ 
         User::factory()->count(5)->create();
 
         Instructor::factory()->count(5)->create();
@@ -28,14 +28,26 @@ class DatabaseSeeder extends Seeder
             LessonSeeder::class,
             ReviewSeeder::class,
         ]);
+        // User::factory(10)->create();
 
+        // User::factory()->create([
+        //     'name' => 'Test User',
+        //     'email' => 'test@example.com',
+        // ])->withoutOverwriting();
 
-        User::factory()->create([
-            'first_name' => 'Test',
-            'last_name' => 'User',
-            'username' => 'testuser',
-            'email' => 'test@example.com',
-        ]);
-
-    }
+        $this->call([
+            CourseSeeder::class,
+         ]);
+          
+            $this->call(InstructorSeeder::class);
+            $this->call(CategorySeeder::class);
+            $this->call(CourseSeeder::class);
+            $this->call(SyllabusSeeder::class);
+            $this->call(LessonSeeder::class);
+            $this->call(EnrollmentAndDoneLessonSeeder::class);
+            $this->call(ChatAndMessageSeeder::class);
+            $this->call(LessonSeeder::class);  
+            $this->call(ReviewSeeder::class);
+            $this->call(SocialSeeder::class);
+        }
 }

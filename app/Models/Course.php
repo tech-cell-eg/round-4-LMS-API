@@ -3,18 +3,20 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Course extends Model
 {
+    use HasFactory; 
     protected $guarded = [];
 
     protected $casts = [
        'languages' => 'array',
     ];
 
-    public function instructors()
+    public function instructor()
     {
-        return $this->belongsToMany(Instructor::class);
+        return $this->belongsTo(Instructor::class);
     }
 
     public function category()
