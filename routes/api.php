@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/instructors/{instructor}/review', [InstructorController::class, 'store']);
     Route::get('/instructors/{instructor}/reviews', [InstructorController::class, 'index']);
     Route::get('/top-instructors', [InstructorController::class, 'topInstructors']);
+    Route::get('/instructors/{instructor}/courses', [InstructorController::class, 'showInstructorCourses']);
 
     // Syllabus
     Route::get('courses/{courseId}/syllabuses', [SyllabusController::class, 'index']);
