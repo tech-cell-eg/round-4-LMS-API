@@ -59,14 +59,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/{reviewId}', 'show');
         Route::put('/{reviewId}', 'update');
         Route::delete('/{reviewId}', 'destroy');
-
-
-        // Instructors Routes
-        Route::post('/instructors/{instructor}/review', [InstructorController::class, 'store']);
-        Route::get('/instructors/{instructor}/reviews', [InstructorController::class, 'index']);
-        Route::get('/top-instructors', [InstructorController::class, 'topInstructors']);
-
     });
+
+    // Instructors Routes
+    Route::post('/instructors/{instructor}/review', [InstructorController::class, 'store']);
+    Route::get('/instructors/{instructor}/reviews', [InstructorController::class, 'index']);
+    Route::get('/top-instructors', [InstructorController::class, 'topInstructors']);
 
     // Syllabus
     Route::get('courses/{courseId}/syllabuses', [SyllabusController::class, 'index']);
