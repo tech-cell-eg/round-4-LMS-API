@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\Course;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
 class CourseSeeder extends Seeder
 {
     /**
@@ -13,7 +12,7 @@ class CourseSeeder extends Seeder
      */
     public function run(): void
     {
-        Course::create([
+         Course::create([
             'slug'          => 'laravel-from-zero-to-hero',
             'category_id'   => 1,
             'instructor_id' => 1,
@@ -92,5 +91,5 @@ class CourseSeeder extends Seeder
             'discount'      => 12.00,
             'tax'           => 6.00,
         ]);
-    }
+     }
 }

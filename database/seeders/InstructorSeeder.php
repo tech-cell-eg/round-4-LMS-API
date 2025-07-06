@@ -13,10 +13,10 @@ class InstructorSeeder extends Seeder
      * Run the database seeds.
      */
 
-       public function run(): void
-        {
-            $firstNames = ['Ahmed', 'Sara', 'Youssef', 'Fatma', 'Omar', 'Nour', 'Hassan', 'Layla', 'Khaled', 'Mona'];
-            $lastNames = ['Ali', 'Ibrahim', 'Mahmoud', 'Hassan', 'Salem', 'Younes', 'Adel', 'Fouad', 'Mostafa', 'Tarek'];
+    public function run(): void
+    {
+        $firstNames = ['John', 'Jane', 'Alice', 'Bob', 'Tom', 'Sara', 'Mike', 'Lily', 'Dave', 'Nina'];
+        $lastNames = ['Smith', 'Doe', 'Brown', 'Johnson', 'Taylor', 'Lee', 'Wilson', 'Clark', 'Hall', 'Adams'];
 
             for ($i = 0; $i < 10; $i++) {
                 Instructor::create([
@@ -33,6 +33,10 @@ class InstructorSeeder extends Seeder
                     'experience'         => 'Over ' . (2 + $i) . ' years of experience in tech and teaching.',
                 ]);
             }
+<<<<<<< HEAD
     }
     
+=======
+        }
+>>>>>>> 266fafe991bd40180f1046008d0531c5490bd45c
 }
