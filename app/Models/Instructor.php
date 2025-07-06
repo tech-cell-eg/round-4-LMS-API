@@ -15,9 +15,9 @@ class Instructor extends Authenticatable
     protected $guarded = [];
 
     public function courses()
-    {
-        return $this->hasMany(Course::class);
-    }
+  {
+      return $this->hasMany(Course::class);
+  }
 
     public function social()
     {
@@ -37,6 +37,16 @@ class Instructor extends Authenticatable
     public function reviews()
     {
         return $this->morphMany(Review::class, 'reviewable');
+    }
+
+    public function getTotalStudentsAttribute()
+    {
+        return $this->courses->sum(fn($course) => $course->enrollments->count());
+    }
+
+    public function getTotalReviewsAttribute()
+    {
+        return $this->courses->sum(fn($course) => $course->reviews->count());
     }
 
 }
