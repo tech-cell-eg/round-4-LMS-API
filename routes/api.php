@@ -7,8 +7,8 @@ use App\Http\Controllers\Api\Student\ProfileController;
 use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\Categories\CategoryController;
-use App\Http\Controllers\Api\InstructorController;
-use App\Http\Controllers\Api\Student\CartController;
+use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\CartController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
