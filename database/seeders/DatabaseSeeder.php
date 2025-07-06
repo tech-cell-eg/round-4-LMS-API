@@ -15,10 +15,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
- 
-        User::factory()->count(5)->create();
-
-        Instructor::factory()->count(5)->create();
 
         $this->call([
             CategorySeeder::class,
@@ -27,27 +23,10 @@ class DatabaseSeeder extends Seeder
             SyllabusSeeder::class,
             LessonSeeder::class,
             ReviewSeeder::class,
+            EnrollmentAndDoneLessonSeeder::class,
+            ChatAndMessageSeeder::class,
+            SocialSeeder::class,
         ]);
-        // User::factory(10)->create();
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ])->withoutOverwriting();
-
-        $this->call([
-            CourseSeeder::class,
-         ]);
-          
-            $this->call(InstructorSeeder::class);
-            $this->call(CategorySeeder::class);
-            $this->call(CourseSeeder::class);
-            $this->call(SyllabusSeeder::class);
-            $this->call(LessonSeeder::class);
-            $this->call(EnrollmentAndDoneLessonSeeder::class);
-            $this->call(ChatAndMessageSeeder::class);
-            $this->call(LessonSeeder::class);  
-            $this->call(ReviewSeeder::class);
-            $this->call(SocialSeeder::class);
-        }
+    }
 }

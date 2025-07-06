@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Syllabus extends Model
 {
     use HasFactory;
-    protected $table = 'syllabuses';
     protected $guarded = [];
     protected $table = 'syllabuses';
 
@@ -22,5 +21,5 @@ class Syllabus extends Model
         return $this->hasMany(Lesson::class);
     }
 
-    
+
 }

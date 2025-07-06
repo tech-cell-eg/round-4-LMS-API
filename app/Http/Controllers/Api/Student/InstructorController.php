@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Student;
 
+use App\Http\Controllers\Controller;
+use App\Http\Resources\CourseResource;
 use App\Models\Instructor;
 use Illuminate\Http\Request;
 
@@ -66,4 +68,25 @@ class InstructorController extends Controller
             'top_instructors' => $instructors,
         ]);
     }
+
+    public function showInstructorCourses($instructorId)
+    {
+        $instructor = Instructor::findOrFail($instructorId);
+
+        $courses = $instructor->courses()->with([
+            'reviews',
+            'syllabuses.lessons',  // يجب تحميل الدروس مع السيلابوسز
+            'instructor'
+        ])->get();
+
+        if ($courses->isEmpty()) {
+            return response()->json([
+                'message' => 'No courses found for this instructor'
+            ], 404);
+        }
+
+        return CourseResource::collection($courses);
+    }
+
+
 }
