@@ -15,6 +15,9 @@ class InstructorSeeder extends Seeder
 
     public function run(): void
     {
+        $firstNames = ['John', 'Jane', 'Alice', 'Bob', 'Tom', 'Sara', 'Mike', 'Lily', 'Dave', 'Nina'];
+        $lastNames = ['Smith', 'Doe', 'Brown', 'Johnson', 'Taylor', 'Lee', 'Wilson', 'Clark', 'Hall', 'Adams'];
+
             for ($i = 0; $i < 10; $i++) {
                 Instructor::create([
                     'first_name'         => $firstNames[$i],
@@ -32,4 +35,3 @@ class InstructorSeeder extends Seeder
             }
         }
 }
-

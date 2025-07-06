@@ -12,7 +12,6 @@ class CourseSeeder extends Seeder
      */
     public function run(): void
     {
-         Course::factory()->count(5)->create();
          Course::create([
             'slug'          => 'laravel-from-zero-to-hero',
             'category_id'   => 1,
