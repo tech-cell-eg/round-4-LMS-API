@@ -23,6 +23,7 @@ Route::controller(AuthController::class)->group(function () {
 // Instructor Routes
 Route::group(['middleware' => ['auth:sanctum','is_instructor']], function () {
     Route::post('/courses', [InstructorCourseController::class, 'store']);
+    Route::get('/courses/{slug}', [CourseController::class, 'show']);
 
 });
 
@@ -42,7 +43,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/courses', [CourseController::class, 'index']);
     Route::get('/courses/category/{category}', [CourseController::class, 'filterByCategory']);
     Route::get('/courses/{id}', [CourseController::class, 'show']);
-    Route::get('/courses/{slug}', [CourseController::class, 'show']);
     Route::get('/categories', [CategoryController::class, 'index']);
 
     // Cart routes
