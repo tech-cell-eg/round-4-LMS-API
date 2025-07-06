@@ -10,7 +10,6 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Instructor extends Authenticatable
 {
-    use HasFactory;
     use HasFactory, Notifiable, HasApiTokens;
 
     protected $guarded = [];
