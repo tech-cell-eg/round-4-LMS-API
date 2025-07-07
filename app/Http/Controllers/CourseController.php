@@ -63,7 +63,7 @@ class CourseController extends Controller
     }
     return response()->json($formattedCourses);
     }
-  
+
     private function mapLevel($level)
     {
         return match($level) {
@@ -103,5 +103,6 @@ class CourseController extends Controller
             'course' => $course,
         ]);
     }
+    
 
 }

@@ -21,7 +21,7 @@ class InstructorController extends Controller
         $instructor = Instructor::findOrFail($instructor_id);
 
         $userId = 2;
-
+                    
         $alreadyReviewed = $instructor->reviews()
             ->where('user_id', $userId)
             ->exists();
@@ -77,7 +77,7 @@ class InstructorController extends Controller
         $courses = $instructor->courses()->with([
             'reviews',
             'syllabuses.lessons',  // يجب تحميل الدروس مع السيلابوسز
-            'instructors'
+            'instructor'
         ])->get();
 
         if ($courses->isEmpty()) {

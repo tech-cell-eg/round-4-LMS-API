@@ -40,3 +40,7 @@ Route::controller(AuthController::class)->group(function () {
   Route::get('/courses/{id}', [CourseController::class, 'show']);
   Route::get('/categories', [CategoryController::class, 'index']);
 Route::get('/courses/{course}/customers', [CourseCustomerController::class, 'index']);
+
+Route::get('/instructors', [ControllersInstructorController::class, 'index']);
+Route::get('/instructors/{instructor}', [ControllersInstructorController::class, 'show']);
+Route::get('/instructors/{instructor}/courses', [ControllersInstructorController::class, 'showInstructorCourses']);
