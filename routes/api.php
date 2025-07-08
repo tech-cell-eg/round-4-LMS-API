@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\Instructor\CourseController as InstructorCourseController;
+use App\Http\Controllers\Api\Instructor\InstructorReviewControlle;
 use App\Http\Controllers\Api\Student\CartController;
 use App\Http\Controllers\Api\Student\CategoryController;
 use App\Http\Controllers\Api\Student\CourseController;
@@ -21,9 +22,11 @@ Route::controller(AuthController::class)->group(function () {
 
 
 // Instructor Routes
-Route::group(['middleware' => ['auth:sanctum','is_instructor']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'is_instructor']], function () {
     Route::post('/courses', [InstructorCourseController::class, 'store']);
     Route::get('/courses/{slug}', [CourseController::class, 'show']);
+    Route::get('instructors/{id}/reviews', [InstructorReviewControlle::class, 'index']);
+
 
 });
 
@@ -54,7 +57,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Reviews on Courses
     Route::prefix('courses/{courseId}/reviews')->controller(ReviewController::class)->group(function () {
-        Route::get('/', 'index');
         Route::post('/', 'store');
         Route::get('/{reviewId}', 'show');
         Route::put('/{reviewId}', 'update');
@@ -67,7 +69,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/top-instructors', [InstructorController::class, 'topInstructors']);
     Route::get('/instructors/{instructor}/courses', [InstructorController::class, 'showInstructorCourses']);
 
-    // Syllabus
-    Route::get('courses/{courseId}/syllabuses', [SyllabusController::class, 'index']);
-
 });
+
+// Syllabus
+Route::get('courses/{courseId}/syllabuses', [SyllabusController::class, 'index']);
+// Reviews on Courses
+Route::get('courses/{courseId}/reviews', [ReviewController::class, 'index']);
+
