@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\Instructor\CourseController as InstructorCourseController;
-use App\Http\Controllers\Api\Instructor\InstructorReviewControlle;
+use App\Http\Controllers\Api\Instructor\InstructorReviewController;
 use App\Http\Controllers\Api\Student\CartController;
 use App\Http\Controllers\Api\Student\CategoryController;
 use App\Http\Controllers\Api\Student\CourseController;
@@ -13,26 +13,27 @@ use App\Http\Controllers\Api\Student\ReviewController;
 use App\Http\Controllers\Api\Student\SyllabusController;
 use Illuminate\Support\Facades\Route;
 
+
+
+
 // Auth routes
-Route::controller(AuthController::class)->group(function () {
+    Route::controller(AuthController::class)->group(function () {
     Route::post('register', 'register');
     Route::post('login', 'login');
     Route::post('logout', 'logout')->middleware('auth:sanctum');
 });
 
-
 // Instructor Routes
 Route::group(['middleware' => ['auth:sanctum', 'is_instructor']], function () {
     Route::post('/courses', [InstructorCourseController::class, 'store']);
-    Route::get('/courses/{slug}', [CourseController::class, 'show']);
-    Route::get('instructors/{id}/reviews', [InstructorReviewControlle::class, 'index']);
-
-
+    Route::get('/courses/{slug}', [InstructorCourseController::class, 'show']);
+    Route::get('/instructor/{id}/courses-dashboard', [InstructorCourseController::class, 'DashboardInstructorCourses']);
+    Route::get('/instructors/{id}/reviews', [InstructorReviewController::class, 'index']);
 });
 
 
-//Student Routes
-Route::group(['middleware' => ['auth:sanctum']], function () {
+    //Student Routes
+    Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Student Profile Routes
     Route::get('instructors/{instructorUsername}', [InstructorProfileController::class, 'show'])->name('instructor.show');
@@ -45,8 +46,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Courses Routes
     Route::get('/courses', [CourseController::class, 'index']);
     Route::get('/courses/category/{category}', [CourseController::class, 'filterByCategory']);
-    Route::get('/courses/{id}', [CourseController::class, 'show']);
+    Route::get('/courses/{id}', [CourseController::class, 'showCourseDetails']);
     Route::get('/categories', [CategoryController::class, 'index']);
+    Route::get('/courses/{course}/instructor', [CourseController::class, 'showInstructorInfoRelatedToCourse']);
+
 
     // Cart routes
     Route::get('/cart', [CartController::class, 'index']);
@@ -75,4 +78,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::get('courses/{courseId}/syllabuses', [SyllabusController::class, 'index']);
 // Reviews on Courses
 Route::get('courses/{courseId}/reviews', [ReviewController::class, 'index']);
+
 
