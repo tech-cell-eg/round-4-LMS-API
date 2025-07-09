@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\Student\ProfileController;
 use App\Http\Controllers\Api\Student\ReviewController;
 use App\Http\Controllers\Api\Student\SyllabusController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Instructor\CouponController;
 
 // Auth routes
 Route::controller(AuthController::class)->group(function () {
@@ -24,6 +25,24 @@ Route::controller(AuthController::class)->group(function () {
 Route::group(['middleware' => ['auth:sanctum','is_instructor']], function () {
     Route::post('/courses', [InstructorCourseController::class, 'store']);
     Route::get('/courses/{slug}', [CourseController::class, 'show']);
+
+
+        // coupons
+    //   http://127.0.0.1:8000/api/coupons
+    //   http://127.0.0.1:8000/api/coupons/1
+    Route::get('coupons', [CouponController::class, 'index']);
+
+    // http://127.0.0.1:8000/api/coupons
+    Route::post('coupons', [CouponController::class, 'store']);
+
+    // http://127.0.0.1:8000/api/coupons/1
+    Route::get('coupons/{coupon}', [CouponController::class, 'show']);
+
+    // http://127.0.0.1:8000/api/coupons/1
+    Route::match(['put', 'patch'], 'coupons/{coupon}', [CouponController::class, 'update']);
+
+    // http://127.0.0.1:8000/api/coupons/1
+    Route::delete('coupons/{coupon}', [CouponController::class, 'destroy']);
 
 });
 
