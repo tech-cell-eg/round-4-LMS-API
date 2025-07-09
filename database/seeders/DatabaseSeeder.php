@@ -16,6 +16,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
+        User::factory()->count(5)->create(); // Adding fake students before the Reviews
+
         $this->call([
             CategorySeeder::class,
             InstructorSeeder::class,

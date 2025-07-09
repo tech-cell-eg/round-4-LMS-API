@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\Instructor\CourseController as InstructorCourseController;
+use App\Http\Controllers\Api\Instructor\InstructorReviewController;
 use App\Http\Controllers\Api\Student\CartController;
 use App\Http\Controllers\Api\Student\CategoryController;
 use App\Http\Controllers\Api\Student\CourseController;
@@ -23,12 +24,11 @@ use Illuminate\Support\Facades\Route;
 });
 
 // Instructor Routes
-    Route::group(['middleware' => ['auth:sanctum','is_instructor']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'is_instructor']], function () {
     Route::post('/courses', [InstructorCourseController::class, 'store']);
     Route::get('/courses/{slug}', [InstructorCourseController::class, 'show']);
-        Route::get('/instructor/{id}/courses-dashboard', [InstructorCourseController::class, 'DashboardInstructorCourses']);
-
-
+    Route::get('/instructor/{id}/courses-dashboard', [InstructorCourseController::class, 'DashboardInstructorCourses']);
+    Route::get('/instructors/{id}/reviews', [InstructorReviewController::class, 'index']);
 });
 
 
@@ -60,7 +60,6 @@ use Illuminate\Support\Facades\Route;
 
     // Reviews on Courses
     Route::prefix('courses/{courseId}/reviews')->controller(ReviewController::class)->group(function () {
-        Route::get('/', 'index');
         Route::post('/', 'store');
         Route::get('/{reviewId}', 'show');
         Route::put('/{reviewId}', 'update');
@@ -73,11 +72,11 @@ use Illuminate\Support\Facades\Route;
     Route::get('/top-instructors', [InstructorController::class, 'topInstructors']);
     Route::get('/instructors/{instructor}/courses', [InstructorController::class, 'showInstructorCourses']);
 
-    // Syllabus
-    Route::get('courses/{courseId}/syllabuses', [SyllabusController::class, 'index']);
-
 });
 
-
+// Syllabus
+Route::get('courses/{courseId}/syllabuses', [SyllabusController::class, 'index']);
+// Reviews on Courses
+Route::get('courses/{courseId}/reviews', [ReviewController::class, 'index']);
 
 
