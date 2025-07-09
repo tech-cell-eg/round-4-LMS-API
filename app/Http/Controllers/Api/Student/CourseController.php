@@ -78,7 +78,7 @@ class CourseController extends Controller
     }
 
     //API to fetch complete details of a single course
-    public function show($id)
+    public function showCourseDetails($id)
     {
         $course = Course::with('syllabuses.lessons')->findOrFail($id);
         return response()->json([
