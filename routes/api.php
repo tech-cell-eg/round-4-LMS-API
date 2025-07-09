@@ -48,6 +48,8 @@ use Illuminate\Support\Facades\Route;
     Route::get('/courses/category/{category}', [CourseController::class, 'filterByCategory']);
     Route::get('/courses/{id}', [CourseController::class, 'showCourseDetails']);
     Route::get('/categories', [CategoryController::class, 'index']);
+    Route::get('/courses/{course}/instructor', [CourseController::class, 'showInstructorInfoRelatedToCourse']);
+
 
     // Cart routes
     Route::get('/cart', [CartController::class, 'index']);
