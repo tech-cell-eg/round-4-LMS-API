@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api\Student;
 
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CourseResource;
+use App\Http\Resources\TopInstructorsResource;
 use App\Models\Instructor;
 use Illuminate\Http\Request;
 
@@ -19,18 +21,32 @@ class InstructorController extends Controller
 
         $instructor = Instructor::findOrFail($instructor_id);
 
-        $userId = 2;
+        $userId = auth()->id();
 
-        $alreadyReviewed = $instructor->reviews()
-            ->where('user_id', $userId)
-            ->exists();
-
-        if ($alreadyReviewed) {
+        if (!$userId) {
             return response()->json([
-                'message' => 'You have already reviewed this instructor'
-            ], 409);
+                'message' => 'User must be logged in to submit a review'
+            ], 401);
         }
 
+        // تحقق هل المستخدم قيم سابقًا
+        $existingReview = $instructor->reviews()
+            ->where('user_id', $userId)
+            ->first();
+
+        if ($existingReview) {
+            // تحديث التقييم السابق
+            $existingReview->update([
+                'rating'  => $request->rating,
+                'comment' => $request->comment,
+            ]);
+
+            return response()->json([
+                'message' => 'Review updated successfully'
+            ], 200);
+        }
+
+        // إذا لم يكن هناك تقييم سابق، أنشئ تقييم جديد
         $instructor->reviews()->create([
             'user_id' => $userId,
             'rating'  => $request->rating,
@@ -41,6 +57,7 @@ class InstructorController extends Controller
             'message' => 'Review created successfully'
         ], 201);
     }
+
 
 
     public function index($instructorId)
@@ -58,35 +75,42 @@ class InstructorController extends Controller
         ]);
     }
 
-   public function topInstructors()
+    public function topInstructors()
     {
         $instructors = Instructor::withAvg('reviews', 'rating')
+            ->with(['courses.enrollments'])  // لتحميل علاقات الطلاب مع الكورسات
             ->orderByDesc('reviews_avg_rating')
             ->get();
 
-        return response()->json([
-            'top_instructors' => $instructors,
-        ]);
+        return ApiResponse::sendResponse(
+            TopInstructorsResource::collection($instructors),
+            'Top instructors fetched successfully'
+        );
     }
+
+
 
     public function showInstructorCourses($instructorId)
     {
-        $instructor = Instructor::findOrFail($instructorId);
+        $instructor = Instructor::find($instructorId);
+
+        if (!$instructor) {
+            return ApiResponse::sendResponse([], 'Instructor not found', 404);
+        }
 
         $courses = $instructor->courses()->with([
             'reviews',
-            'syllabuses.lessons',  // يجب تحميل الدروس مع السيلابوسز
+            'syllabuses.lessons',
             'instructor'
         ])->get();
 
         if ($courses->isEmpty()) {
-            return response()->json([
-                'message' => 'No courses found for this instructor'
-            ], 404);
+            return ApiResponse::sendResponse([], 'No courses found for this instructor', 404);
         }
 
-        return CourseResource::collection($courses);
+        return ApiResponse::sendResponse(
+            CourseResource::collection($courses),
+            'Courses retrieved successfully'
+        );
     }
-
-
 }
