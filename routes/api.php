@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\Instructor\CouponController;
 
 
 
+
 // Auth routes
     Route::controller(AuthController::class)->group(function () {
     Route::post('register', 'register');
@@ -31,7 +32,6 @@ Route::group(['middleware' => ['auth:sanctum', 'is_instructor']], function () {
 
 
         // coupons
-
     Route::get('coupons', [CouponController::class, 'index']);
     Route::post('coupons', [CouponController::class, 'store']);
     Route::get('coupons/{coupon}', [CouponController::class, 'show']);
