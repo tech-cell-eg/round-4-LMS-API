@@ -44,8 +44,15 @@ class ReviewController extends Controller
     // Show a specific review for a course
     public function show($courseId, $reviewId)
     {
-        $course = Course::findOrFail($courseId);
-        $review = $course->reviews()->findOrFail($reviewId);
+        $course = Course::find($courseId);
+        if (!$course) {
+            return ApiResponse::sendError('Course not found.', 404);
+        }
+
+        $review = $course->reviews()->find($reviewId);
+        if (!$review) {
+            return ApiResponse::sendError('Review not found for this course.', 404);
+        }
 
         return ApiResponse::sendResponse(new ReviewResource($review), 'Review retrieved successfully.');
     }
