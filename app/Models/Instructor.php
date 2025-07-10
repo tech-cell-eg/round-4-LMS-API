@@ -49,4 +49,9 @@ class Instructor extends Authenticatable
         return $this->courses->sum(fn($course) => $course->reviews->count());
     }
 
+     public function coupons()
+    {
+        // return $this->hasMany(Coupon::class, 'instructor_id');
+        return $this->hasMany(\App\Models\Coupon::class, 'instructor_id');
+    }
 }

@@ -3,11 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+// use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Course extends Model
 {
-    use HasFactory; 
     protected $guarded = [];
 
     protected $casts = [
@@ -39,5 +38,9 @@ class Course extends Model
         return $this->morphMany(Review::class, 'reviewable');
     }
 
+     public function coupons()
+    {
+        return $this->hasMany(Coupon::class);
+    }
 
 }
