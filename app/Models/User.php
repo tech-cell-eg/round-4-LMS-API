@@ -99,6 +99,11 @@ class User extends Authenticatable
         return $this->hasMany(DoneLesson::class);
     }
 
+     public function instructor()
+    {
+        return $this->hasOne(Instructor::class); 
+    }
+
     public function getChatCoursesWithInstructorsAttribute()
     {
         $instructorIds = $this->enrollments()
@@ -111,6 +116,11 @@ class User extends Authenticatable
             ->whereIn('instructor_id', $instructorIds)
             ->with(['instructor', 'messages']) // حمل العلاقات لو حابب
             ->get();
+    }
+
+    public function couponRedemptions()
+    {
+        return $this->hasMany(CouponRedemption::class);
     }
 
 }

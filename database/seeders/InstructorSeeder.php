@@ -23,7 +23,7 @@ class InstructorSeeder extends Seeder
                 'last_name'          => $lastNames[$i],
                 'username'           => strtolower($firstNames[$i]) . '.' . strtolower($lastNames[$i]),
                 'email'              => strtolower($firstNames[$i]) . $i . '@example.com',
-                'password'           => Hash::make('password'), // كلمة سر وهمية
+                'password'           => Hash::make('password'),
                 'email_verified_at'  => now(),
                 'headline'           => 'Expert in ' . ['Laravel', 'Vue.js', 'UI/UX', 'DevOps', 'Python'][$i % 5],
                 'about'              => 'This is a sample instructor bio for ' . $firstNames[$i],

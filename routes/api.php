@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\Student\ProfileController;
 use App\Http\Controllers\Api\Student\ReviewController;
 use App\Http\Controllers\Api\Student\SyllabusController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Instructor\CouponController;
 
 
 
@@ -26,7 +27,19 @@ use Illuminate\Support\Facades\Route;
 // Instructor Routes
 Route::group(['middleware' => ['auth:sanctum', 'is_instructor']], function () {
     Route::post('/courses', [InstructorCourseController::class, 'store']);
-    Route::get('/courses/{slug}', [InstructorCourseController::class, 'show']);
+    Route::get('/courses/{slug}', [CourseController::class, 'show']); //
+
+
+        // coupons
+
+    Route::get('coupons', [CouponController::class, 'index']);
+    Route::post('coupons', [CouponController::class, 'store']);
+    Route::get('coupons/{coupon}', [CouponController::class, 'show']);
+    Route::match(['put', 'patch'], 'coupons/{coupon}', [CouponController::class, 'update']);
+    Route::delete('coupons/{coupon}', [CouponController::class, 'destroy']);
+  
+    Route::get('/courses/{slug}', [InstructorCourseController::class, 'show']); //
+               
     Route::get('/instructor/{id}/courses-dashboard', [InstructorCourseController::class, 'DashboardInstructorCourses']);
     Route::get('/instructors/{id}/reviews', [InstructorReviewController::class, 'index']);
 });
