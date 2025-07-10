@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Course extends Model
 {
-    use HasFactory; 
+    use HasFactory;
     protected $guarded = [];
 
     protected $casts = [
@@ -38,6 +38,5 @@ class Course extends Model
     {
         return $this->morphMany(Review::class, 'reviewable');
     }
-
 
 }

@@ -4,11 +4,11 @@ namespace App\Helpers;
 
 class ApiResponse
 {
-    static function sendResponse($data = [], $msg = [], $code = 200)
+    static function sendResponse($data = [], $message = [], $code = 200)
     {
         $response = [
             'status' => $code,
-            'msg' => $msg,
+            'msg' => $message,
             'data' => $data,
         ];
 

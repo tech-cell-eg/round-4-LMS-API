@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\Student\ReviewController;
 use App\Http\Controllers\Api\Student\SyllabusController;
 use Illuminate\Support\Facades\Route;
 
+
 // Auth routes
 Route::controller(AuthController::class)->group(function () {
     Route::post('register', 'register');
@@ -23,7 +24,7 @@ Route::controller(AuthController::class)->group(function () {
 // Instructor Routes
 Route::group(['middleware' => ['auth:sanctum','is_instructor']], function () {
     Route::post('/courses', [InstructorCourseController::class, 'store']);
-    Route::get('/courses/{slug}', [CourseController::class, 'show']);
+    Route::get('/courses/{slug}', [InstructorCourseController::class, 'show']);
 
 });
 
