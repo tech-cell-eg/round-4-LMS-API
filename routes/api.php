@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\Instructor\CourseController as InstructorCourseController;
+use App\Http\Controllers\Api\Instructor\InstructorReviewController;
 use App\Http\Controllers\Api\Student\CartController;
 use App\Http\Controllers\Api\Student\CategoryController;
 use App\Http\Controllers\Api\Student\CourseController;
@@ -13,42 +14,39 @@ use App\Http\Controllers\Api\Student\SyllabusController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Instructor\CouponController;
 
+
+
+
 // Auth routes
-Route::controller(AuthController::class)->group(function () {
+    Route::controller(AuthController::class)->group(function () {
     Route::post('register', 'register');
     Route::post('login', 'login');
     Route::post('logout', 'logout')->middleware('auth:sanctum');
 });
 
-
 // Instructor Routes
-Route::group(['middleware' => ['auth:sanctum','is_instructor']], function () {
+Route::group(['middleware' => ['auth:sanctum', 'is_instructor']], function () {
     Route::post('/courses', [InstructorCourseController::class, 'store']);
-    Route::get('/courses/{slug}', [CourseController::class, 'show']);
+    Route::get('/courses/{slug}', [CourseController::class, 'show']); //
 
 
         // coupons
-    //   http://127.0.0.1:8000/api/coupons
-    //   http://127.0.0.1:8000/api/coupons/1
+
     Route::get('coupons', [CouponController::class, 'index']);
-
-    // http://127.0.0.1:8000/api/coupons
     Route::post('coupons', [CouponController::class, 'store']);
-
-    // http://127.0.0.1:8000/api/coupons/1
     Route::get('coupons/{coupon}', [CouponController::class, 'show']);
-
-    // http://127.0.0.1:8000/api/coupons/1
     Route::match(['put', 'patch'], 'coupons/{coupon}', [CouponController::class, 'update']);
-
-    // http://127.0.0.1:8000/api/coupons/1
     Route::delete('coupons/{coupon}', [CouponController::class, 'destroy']);
-
+  
+    Route::get('/courses/{slug}', [InstructorCourseController::class, 'show']); //
+               
+    Route::get('/instructor/{id}/courses-dashboard', [InstructorCourseController::class, 'DashboardInstructorCourses']);
+    Route::get('/instructors/{id}/reviews', [InstructorReviewController::class, 'index']);
 });
 
 
-//Student Routes
-Route::group(['middleware' => ['auth:sanctum']], function () {
+    //Student Routes
+    Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Student Profile Routes
     Route::get('instructors/{instructorUsername}', [InstructorProfileController::class, 'show'])->name('instructor.show');
@@ -61,8 +59,10 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // Courses Routes
     Route::get('/courses', [CourseController::class, 'index']);
     Route::get('/courses/category/{category}', [CourseController::class, 'filterByCategory']);
-    Route::get('/courses/{id}', [CourseController::class, 'show']);
+    Route::get('/courses/{id}', [CourseController::class, 'showCourseDetails']);
     Route::get('/categories', [CategoryController::class, 'index']);
+    Route::get('/courses/{course}/instructor', [CourseController::class, 'showInstructorInfoRelatedToCourse']);
+
 
     // Cart routes
     Route::get('/cart', [CartController::class, 'index']);
@@ -73,7 +73,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Reviews on Courses
     Route::prefix('courses/{courseId}/reviews')->controller(ReviewController::class)->group(function () {
-        Route::get('/', 'index');
         Route::post('/', 'store');
         Route::get('/{reviewId}', 'show');
         Route::put('/{reviewId}', 'update');
@@ -86,7 +85,11 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/top-instructors', [InstructorController::class, 'topInstructors']);
     Route::get('/instructors/{instructor}/courses', [InstructorController::class, 'showInstructorCourses']);
 
-    // Syllabus
-    Route::get('courses/{courseId}/syllabuses', [SyllabusController::class, 'index']);
-
 });
+
+// Syllabus
+Route::get('courses/{courseId}/syllabuses', [SyllabusController::class, 'index']);
+// Reviews on Courses
+Route::get('courses/{courseId}/reviews', [ReviewController::class, 'index']);
+
+
