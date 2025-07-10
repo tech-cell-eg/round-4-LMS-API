@@ -8,7 +8,7 @@ use App\Http\Resources\ReviewResource;
 use App\Models\Instructor;
 use App\Models\Review;
 
-class InstructorReviewControlle extends Controller
+class InstructorReviewController extends Controller
 {
     public function index($id)
     {
