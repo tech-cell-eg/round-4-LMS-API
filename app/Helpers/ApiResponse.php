@@ -14,4 +14,15 @@ class ApiResponse
 
         return response()->json($response, $code);
     }
+
+        public static function sendError($msg = 'Error', $code = 400)
+    {
+        $response = [
+            'status' => $code,
+            'msg' => $msg,
+            'data' => null,
+        ];
+
+        return response()->json($response, $code);
+    }
 }
