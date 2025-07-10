@@ -27,7 +27,7 @@ use App\Http\Controllers\Api\Instructor\CouponController;
 // Instructor Routes
 Route::group(['middleware' => ['auth:sanctum', 'is_instructor']], function () {
     Route::post('/courses', [InstructorCourseController::class, 'store']);
-    Route::get('/courses/{slug}', [CourseController::class, 'show']); //
+    Route::get('/courses/{slug}', [InstructorCourseController::class, 'show']); 
 
 
         // coupons
@@ -37,7 +37,6 @@ Route::group(['middleware' => ['auth:sanctum', 'is_instructor']], function () {
     Route::get('coupons/{coupon}', [CouponController::class, 'show']);
     Route::match(['put', 'patch'], 'coupons/{coupon}', [CouponController::class, 'update']);
     Route::delete('coupons/{coupon}', [CouponController::class, 'destroy']);
-  
     Route::get('/courses/{slug}', [InstructorCourseController::class, 'show']); //
                
     Route::get('/instructor/{id}/courses-dashboard', [InstructorCourseController::class, 'DashboardInstructorCourses']);
@@ -46,7 +45,7 @@ Route::group(['middleware' => ['auth:sanctum', 'is_instructor']], function () {
 
 
     //Student Routes
-    Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Student Profile Routes
     Route::get('instructors/{instructorUsername}', [InstructorProfileController::class, 'show'])->name('instructor.show');
