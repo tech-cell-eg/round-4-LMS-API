@@ -114,7 +114,7 @@ public function showInstructorInfoRelatedToCourse($id)
 
     public function show()
     {
-        
+        return 1;
     }
 
 }
