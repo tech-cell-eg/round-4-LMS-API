@@ -28,7 +28,11 @@ Route::group(['middleware' => ['auth:sanctum', 'is_instructor']], function () {
     Route::post('/courses', [InstructorCourseController::class, 'store']);
     Route::get('/courses/{slug}', [InstructorCourseController::class, 'show']);
     Route::get('/instructor/{id}/courses-dashboard', [InstructorCourseController::class, 'DashboardInstructorCourses']);
-    Route::get('/instructors/{id}/reviews', [InstructorReviewController::class, 'index']);
+    // Route::get('/instructors/{id}/reviews', [InstructorReviewController::class, 'index']);
+    Route::get('/chapters', [InstructorCourseController::class, 'chapter']);
+    Route::get('/chapters/{id}', [InstructorCourseController::class, 'chapterdetails']);
+    Route::delete('/chapters/{id}', [InstructorCourseController::class, 'destroy']);
+    Route::put('/chapters/{id}/toggle-status', [InstructorCourseController::class, 'toggleStatus']);
 });
 
 
@@ -44,11 +48,11 @@ Route::group(['middleware' => ['auth:sanctum', 'is_instructor']], function () {
     Route::get('/my-chats/{chatId}', [ProfileController::class, 'GetMessages']);
 
     // Courses Routes
-    Route::get('/courses', [CourseController::class, 'index']);
-    Route::get('/courses/category/{category}', [CourseController::class, 'filterByCategory']);
-    Route::get('/courses/{id}', [CourseController::class, 'showCourseDetails']);
+ 
     Route::get('/categories', [CategoryController::class, 'index']);
     Route::get('/courses/{course}/instructor', [CourseController::class, 'showInstructorInfoRelatedToCourse']);
+    Route::get('/courses/category/{category}', [CourseController::class, 'filterByCategory']);
+    Route::get('/course/{id}', [CourseController::class, 'showCourseDetails']);
 
 
     // Cart routes
@@ -80,3 +84,4 @@ Route::get('courses/{courseId}/syllabuses', [SyllabusController::class, 'index']
 Route::get('courses/{courseId}/reviews', [ReviewController::class, 'index']);
 
 
+Route::get('/courses', [CourseController::class, 'index']);

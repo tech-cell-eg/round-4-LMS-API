@@ -18,10 +18,17 @@ class EnsureIsInstructor
     {
         $user = $request->user();
 
-        if (! $user || get_class($user) !== Instructor::class) {
-            return response()->json([
-                'message' => 'Access denied. You must be an instructor.',
-            ], 403);
+      
+        if (! $user || !($user instanceof Instructor)) {
+        
+            if ($request->expectsJson()) {
+                return response()->json([
+                    'message' => 'Access denied. You must be an instructor.',
+                ], 403);
+            }
+
+            // لو الطلب من Web
+            return redirect()->route('instructor.login');
         }
 
         return $next($request);
