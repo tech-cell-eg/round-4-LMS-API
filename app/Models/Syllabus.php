@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Syllabus extends Model
 {
     use HasFactory;
-    protected $table = 'syllabuses';
     protected $guarded = [];
 
     public function course()

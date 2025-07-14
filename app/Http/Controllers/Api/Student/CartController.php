@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Student;
 
 use App\Http\Controllers\Controller;
 use App\Models\Enrollment;
@@ -107,7 +107,7 @@ class CartController extends Controller
         }
         $user->cart->items()->delete();
         return response()->json(['message' => 'Enrolled in all courses successfully']);
-    
+
     }
 
     public function registeredCourses(Request $request)

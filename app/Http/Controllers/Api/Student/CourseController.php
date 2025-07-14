@@ -1,32 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Student;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Course;
-use App\Models\Instructor;
-use Illuminate\Http\Request;
 
 class CourseController extends Controller
 {
-    //Create course by instructor and should assign to category.
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'instructor_id' => 'required|exists:instructors,id',
-            'category_id' => 'required|exists:categories,id',
-            'title' => 'required|string',
-            'slug' => 'required|unique:courses,slug',
-            'overview' => 'nullable|string',
-            'description' => 'nullable|string',
-            'price' => 'numeric',
-        ]);
-        $course = Course::create($validated);
-        return response()->json([
-            'message' => 'Course created successfully',
-            'course' => $course
-        ]);
-    }
 
     // Show all courses
     public function index()

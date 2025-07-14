@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Student;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\InstructorResource;
 use App\Models\Course;
@@ -21,7 +22,7 @@ class InstructorController extends Controller
         $instructor = Instructor::findOrFail($instructor_id);
 
         $userId = 2;
-                    
+
         $alreadyReviewed = $instructor->reviews()
             ->where('user_id', $userId)
             ->exists();
@@ -88,4 +89,5 @@ class InstructorController extends Controller
 
         return CourseResource::collection($courses);
     }
+
 }

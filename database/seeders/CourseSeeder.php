@@ -11,6 +11,7 @@ class CourseSeeder extends Seeder
     /**
      * Run the database seeds.
      */
+<<<<<<< HEAD
   public function run(): void
 {
     Course::factory()->count(5)->create();
@@ -19,6 +20,13 @@ class CourseSeeder extends Seeder
         [
             'slug' => 'laravel-from-zero-to-hero',
             'category_id' => 1,
+=======
+    public function run(): void
+    {
+         Course::create([
+            'slug'          => 'laravel-from-zero-to-hero',
+            'category_id'   => 1,
+>>>>>>> c33082e1a49e567a867010d4e02f2485d3162cdc
             'instructor_id' => 1,
             'title' => 'Laravel From Zero to Hero',
             'image' => null,

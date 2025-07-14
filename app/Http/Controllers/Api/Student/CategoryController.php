@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api\Categories;
+namespace App\Http\Controllers\Api\Student;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;

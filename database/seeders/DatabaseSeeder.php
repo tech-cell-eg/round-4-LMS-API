@@ -21,10 +21,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+<<<<<<< HEAD
 
         User::factory()->count(5)->create();
 
         Instructor::factory()->count(5)->create();
+=======
+>>>>>>> c33082e1a49e567a867010d4e02f2485d3162cdc
 
         $this->call([
             CategorySeeder::class,
@@ -33,9 +36,12 @@ class DatabaseSeeder extends Seeder
             SyllabusSeeder::class,
             LessonSeeder::class,
             ReviewSeeder::class,
+            EnrollmentAndDoneLessonSeeder::class,
+            ChatAndMessageSeeder::class,
+            SocialSeeder::class,
         ]);
-        // User::factory(10)->create();
 
+<<<<<<< HEAD
         // User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
@@ -73,5 +79,7 @@ class DatabaseSeeder extends Seeder
         //     'username' => 'testuser',
         //     'email' => 'test@example.com',
         // ]);
+=======
+>>>>>>> c33082e1a49e567a867010d4e02f2485d3162cdc
     }
 }
