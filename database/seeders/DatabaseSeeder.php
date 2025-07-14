@@ -2,11 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Cart;
-use App\Models\CartItem;
-use App\Models\Category;
-use App\Models\Course;
-use App\Models\CreditCard;
 use App\Models\Instructor;
 use App\Models\Payment;
 use App\Models\User;
@@ -25,6 +20,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
+        User::factory()->count(5)->create(); // Adding fake students before the Reviews
+
         $this->call([
             CategorySeeder::class,
             InstructorSeeder::class,
@@ -36,6 +33,10 @@ class DatabaseSeeder extends Seeder
             ChatAndMessageSeeder::class,
             SocialSeeder::class,
         ]);
+
+
+        Coupon::factory(15)->create();
+        CouponRedemption::factory(30)->create();
 
     }
 }
