@@ -17,8 +17,6 @@ class ReviewSeeder extends Seeder
      */
     public function run(): void
     {
-        $user = User::first();
-        $course = Course::first();
         $students = User::all();
         $instructors = Instructor::all();
         $courses = Course::all();

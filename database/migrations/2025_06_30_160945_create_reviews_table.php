@@ -20,7 +20,7 @@ return new class extends Migration
             $table->timestamps();
         });
     }
-
+       //App/Models/Post
     /**
      * Reverse the migrations.
      */
