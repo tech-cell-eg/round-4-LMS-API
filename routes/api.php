@@ -33,6 +33,9 @@ Route::group(['middleware' => ['auth:sanctum', 'is_instructor']], function () {
     // seller/dashboard
     Route::get('/instructor/dashboard', [\App\Http\Controllers\Api\DashboardController::class, 'index']);
 
+    // seller/course-commission
+    Route::get('/instructor/commissions', [\App\Http\Controllers\Api\Instructor\CommissionController::class, 'index']);
+
 
         // coupons
 
