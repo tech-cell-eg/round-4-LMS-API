@@ -12,7 +12,7 @@ class CourseResource extends JsonResource
             'id' => $this->id,
             'slug' => $this->slug,
             'title' => $this->title,
-            'image' => $this->image ?? 'default-image.jpg', // Default image if null
+            'image' => $this->image ?? 'default-image.jpg',
             'overview' => $this->overview,
             'description' => $this->description,
             'certifications' => $this->certifications,

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\Instructor\CourseController as InstructorCourseController;
+use App\Http\Controllers\api\instructor\InstructorCourseReviewsController;
 use App\Http\Controllers\Api\Instructor\InstructorReviewController;
 use App\Http\Controllers\Api\Student\CartController;
 use App\Http\Controllers\Api\Student\CategoryController;
@@ -29,7 +30,7 @@ use App\Http\Controllers\Api\Instructor\CouponController;
 Route::group(['middleware' => ['auth:sanctum', 'is_instructor']], function () {
     Route::post('/courses', [InstructorCourseController::class, 'store']);
     Route::get('/test/courses/{slug}', [InstructorCourseController::class, 'show']); // up
-    
+
 
         // coupons
     Route::get('coupons', [CouponController::class, 'index']);
@@ -37,9 +38,13 @@ Route::group(['middleware' => ['auth:sanctum', 'is_instructor']], function () {
     Route::get('coupons/{coupon}', [CouponController::class, 'show']);
     Route::match(['put', 'patch'], 'coupons/{coupon}', [CouponController::class, 'update']);
     Route::delete('coupons/{coupon}', [CouponController::class, 'destroy']);
-               
+
     Route::get('/instructor/{id}/courses-dashboard', [InstructorCourseController::class, 'DashboardInstructorCourses']);
     Route::get('/instructors/{id}/reviews', [InstructorReviewController::class, 'index']);
+
+    Route::get('/instructor/course-reviews', [InstructorCourseReviewsController::class, 'index']);
+    Route::get('/instructor/course-reviews/summary', [InstructorCourseReviewsController::class, 'ratingSummary']);
+
 });
 
 
