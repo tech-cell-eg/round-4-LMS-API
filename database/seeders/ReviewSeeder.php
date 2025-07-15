@@ -6,7 +6,6 @@ use App\Models\Course;
 use App\Models\Instructor;
 use App\Models\Review;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Arr;
 
@@ -17,11 +16,9 @@ class ReviewSeeder extends Seeder
      */
     public function run(): void
     {
-        $students = User::all();
+        $students    = User::all();
         $instructors = Instructor::all();
-        $courses = Course::all();
-
-
+        $courses     = Course::all();
 
         // Add reviews for courses
         foreach ($courses as $course) {
@@ -64,7 +61,5 @@ class ReviewSeeder extends Seeder
                 ]);
             }
         }
-
-
     }
 }
