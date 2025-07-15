@@ -3,6 +3,8 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\Instructor\CourseController as InstructorCourseController;
 use App\Http\Controllers\Api\Instructor\InstructorReviewController;
+use App\Http\Controllers\Api\Instructor\SyllabusResourcesController;
+use App\Http\Controllers\Api\Instructor\SyllabusSeoController;
 use App\Http\Controllers\Api\Student\CartController;
 use App\Http\Controllers\Api\Student\CategoryController;
 use App\Http\Controllers\Api\Student\CourseController;
@@ -45,6 +47,15 @@ Route::group(['middleware' => ['auth:sanctum', 'is_instructor']], function () {
     Route::get('/instructor/{id}/courses-dashboard', [InstructorCourseController::class, 'DashboardInstructorCourses']);
     Route::get('/instructors/{id}/reviews', [InstructorReviewController::class, 'index']);
     Route::get('/courses/{course}/customers', [CourseCustomerController::class, 'index']);
+
+    // Syllabus Resources
+    Route::post('/syllabus/{id}/resources', [SyllabusResourcesController::class, 'store']);
+    Route::get('/syllabus/{id}/resources', [SyllabusResourcesController::class, 'show']);
+
+    // Syllabus SEO
+    Route::get('/syllabus/{id}/seo', [SyllabusSeoController::class, 'show']);
+    Route::post('/syllabus/{id}/seo', [SyllabusSeoController::class, 'store']);
+
 });
 
 
