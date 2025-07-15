@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api\Student;
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CourseResource;
-use App\Http\Resources\TopInstructorsResource;
 use App\Models\Instructor;
 use Illuminate\Http\Request;
 
@@ -82,10 +81,9 @@ class InstructorController extends Controller
             ->orderByDesc('reviews_avg_rating')
             ->get();
 
-        return ApiResponse::sendResponse(
-            TopInstructorsResource::collection($instructors),
-            'Top instructors fetched successfully'
-        );
+        return response()->json([
+            'top_instructors' => $instructors,
+        ]);
     }
 
 
@@ -113,4 +111,6 @@ class InstructorController extends Controller
             'Courses retrieved successfully'
         );
     }
+
+
 }
