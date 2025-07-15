@@ -14,13 +14,12 @@ use App\Http\Controllers\Api\Student\ReviewController;
 use App\Http\Controllers\Api\Student\SyllabusController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Instructor\CouponController;
-
-
-
-
+use App\Http\Controllers\Api\Instructor\CourseSettingController;
+use App\Http\Controllers\CourseCustomerController;
+use App\Http\Controllers\Api\Instructor\TransactionsController;
 
 // Auth routes
-    Route::controller(AuthController::class)->group(function () {
+Route::controller(AuthController::class)->group(function () {
     Route::post('register', 'register');
     Route::post('login', 'login');
     Route::post('logout', 'logout')->middleware('auth:sanctum');
@@ -31,8 +30,7 @@ Route::group(['middleware' => ['auth:sanctum', 'is_instructor']], function () {
     Route::post('/courses', [InstructorCourseController::class, 'store']);
     Route::get('/test/courses/{slug}', [InstructorCourseController::class, 'show']); // up
 
-
-        // coupons
+    // Coupons
     Route::get('coupons', [CouponController::class, 'index']);
     Route::post('coupons', [CouponController::class, 'store']);
     Route::get('coupons/{coupon}', [CouponController::class, 'show']);
@@ -40,15 +38,25 @@ Route::group(['middleware' => ['auth:sanctum', 'is_instructor']], function () {
     Route::delete('coupons/{coupon}', [CouponController::class, 'destroy']);
 
     Route::get('/instructor/{id}/courses-dashboard', [InstructorCourseController::class, 'DashboardInstructorCourses']);
+  
+    // InstructorReviews
     Route::get('/instructors/{id}/reviews', [InstructorReviewController::class, 'index']);
-
+  
+    // CourseReviews-&-RatingDetails
     Route::get('/instructor/course-reviews', [InstructorCourseReviewsController::class, 'index']);
     Route::get('/instructor/course-reviews/summary', [InstructorCourseReviewsController::class, 'ratingSummary']);
 
-});
+    //Transactions
+    Route::get('/transactions', [TransactionsController::class, 'getTransactionsJson']);
+    //Course settings
+    Route::post('/courses/{course}/settings', [CourseSettingController::class, 'store']);
+
+    Route::get('/instructor/{id}/courses-dashboard', [InstructorCourseController::class, 'DashboardInstructorCourses']);
+    Route::get('/instructors/{id}/reviews', [InstructorReviewController::class, 'index']);
+    Route::get('/courses/{course}/customers', [CourseCustomerController::class, 'index']);
 
 
-    //Student Routes
+//Student Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
 
     // Student Profile Routes
@@ -87,12 +95,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/instructors/{instructor}/reviews', [InstructorController::class, 'index']);
     Route::get('/top-instructors', [InstructorController::class, 'topInstructors']);
     Route::get('/instructors/{instructor}/courses', [InstructorController::class, 'showInstructorCourses']);
-
 });
 
 // Syllabus
 Route::get('courses/{courseId}/syllabuses', [SyllabusController::class, 'index']);
 // Reviews on Courses
 Route::get('courses/{courseId}/reviews', [ReviewController::class, 'index']);
-
-

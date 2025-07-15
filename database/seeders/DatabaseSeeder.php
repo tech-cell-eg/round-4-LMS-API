@@ -3,9 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Instructor;
+use App\Models\Payment;
 use App\Models\User;
-use App\Models\Course; 
-use App\Models\Coupon; 
+use App\Models\Course;
+use App\Models\Coupon;
 use App\Models\CouponRedemption;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -34,7 +35,7 @@ class DatabaseSeeder extends Seeder
         ]);
 
 
-        Coupon::factory(15)->create(); 
+        Coupon::factory(15)->create();
         CouponRedemption::factory(30)->create();
 
     }

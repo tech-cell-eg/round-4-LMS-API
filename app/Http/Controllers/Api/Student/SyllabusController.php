@@ -12,7 +12,7 @@ class SyllabusController extends Controller
     public function index($id)
     {
 
-        $course = course::findOrFail($id);
+        $course = Course::findOrFail($id);
 
         $syllabuses = $course->syllabuses()->get();
 

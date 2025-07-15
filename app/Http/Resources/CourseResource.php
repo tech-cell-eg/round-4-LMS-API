@@ -62,4 +62,4 @@ class CourseResource extends JsonResource
         ];
     }
 }
-?>
+
