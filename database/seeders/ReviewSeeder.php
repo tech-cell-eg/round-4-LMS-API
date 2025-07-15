@@ -30,7 +30,7 @@ class ReviewSeeder extends Seeder
                     'user_id'         => $student->id,
                     'reviewable_id'   => $instructor->id,
                     'reviewable_type' => Instructor::class,
-                    'rating'          => Arr::random([3.5, 4.0, 4.5, 5.0]),
+                    'rating'          => Arr::random([1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]),
                     'comment'         => Arr::random([
                         'Excellent instructor!',
                         'Very helpful and clear.',
@@ -51,7 +51,7 @@ class ReviewSeeder extends Seeder
                     'user_id'         => $student->id,
                     'reviewable_id'   => $course->id,
                     'reviewable_type' => Course::class,
-                    'rating'          => Arr::random([3.5, 4.0, 4.5, 5.0]),
+                    'rating'          => Arr::random([1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]),
                     'comment'         => Arr::random([
                         'Very helpful course!',
                         'I enjoyed every part of it.',
