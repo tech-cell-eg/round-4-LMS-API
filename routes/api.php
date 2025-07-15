@@ -30,6 +30,10 @@ Route::group(['middleware' => ['auth:sanctum', 'is_instructor']], function () {
     Route::get('/test/courses/{slug}', [InstructorCourseController::class, 'show']); // up
     
 
+    // seller/dashboard
+    Route::get('/instructor/dashboard', [\App\Http\Controllers\Api\DashboardController::class, 'index']);
+
+
         // coupons
 
     Route::get('coupons', [CouponController::class, 'index']);
@@ -40,6 +44,8 @@ Route::group(['middleware' => ['auth:sanctum', 'is_instructor']], function () {
                
     Route::get('/instructor/{id}/courses-dashboard', [InstructorCourseController::class, 'DashboardInstructorCourses']);
     Route::get('/instructors/{id}/reviews', [InstructorReviewController::class, 'index']);
+
+
 });
 
 
@@ -61,6 +67,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/categories', [CategoryController::class, 'index']);
     Route::get('/courses/{course}/instructor', [CourseController::class, 'showInstructorInfoRelatedToCourse']);
 
+
+    // payment
+    Route::post('/payment', [\App\Http\Controllers\Api\PaymentController::class, 'store']);
 
     // Cart routes
     Route::get('/cart', [CartController::class, 'index']);
