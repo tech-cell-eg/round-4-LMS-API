@@ -12,39 +12,85 @@ class CourseController extends Controller
 {
 
     // Show all courses
-    public function index()
+ public function index()
     {
         $courses = Course::with(['category', 'instructor', 'reviews', 'syllabuses.lessons'])->get();
-        $formattedCourses = [];
-        foreach ($courses as $course) {
-            $instructor = $course->instructor;
-
-            $instructorName = $instructor ? $instructor->first_name . ' ' . $instructor->last_name : 'Unknown';
-            $instructorHeadline = $instructor ? $instructor->headline : null;
-
-            $lessons = $course->syllabuses->flatMap->lessons;
-            $totalDuration = $lessons->sum('duration'); // in minutes
-            $lectureCount = $lessons->count();
-
-            $ratingCount = $course->reviews->count();
-            $averageRating = $ratingCount > 0 ? round($course->reviews->avg('rating'), 1) : 0;
-
-            $formattedCourses[] = [
-                'title'             => $course->title,
-                'price'             => round($course->price, 2),
-                'level'             => $this->mapLevel($course->levels), // convert number to text
-                'image'             => $course->image,
-                'overview'          => $course->overview,
-                'category'          => $course->category->name ?? 'Unknown',
-                'instructor_name'   => $instructorName,
-                'instructor_headline' => $instructorHeadline,
-                'average_rating'    => $averageRating,
-                'rating_count'      => $ratingCount,
-                'total_hours'       => round($totalDuration / 60, 2),
-                'lectures'          => $lectureCount,
-            ];
+        $formattedCourses = $courses->map(function ($course) {
+            return $this->formatCourse($course);
+        });
+        return response()->json([
+            'status' => true,
+            'courses' => $formattedCourses,
+        ]);
+    }
+    public function filterByCategory($category)
+    {
+        $category = Category::where('id', $category)
+            ->orWhere('title', $category)
+            ->first();
+        if (!$category) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Category not found'
+            ], 404);
         }
-        return response()->json($formattedCourses);
+        $courses = Course::with(['category', 'instructor', 'reviews', 'syllabuses.lessons'])
+            ->where('category_id', $category->id)
+            ->get();
+        $formattedCourses = $courses->map(function ($course) {
+            return $this->formatCourse($course);
+        });
+        return response()->json([
+            'status' => true,
+            'category' => $category->title,
+            'courses' => $formattedCourses,
+        ]);
+    }
+
+    public function showCourseDetails($id)
+    {
+        $course = Course::with(['category', 'instructor', 'reviews', 'syllabuses.lessons'])->find($id);
+        if (!$course) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Course not found'
+            ], 404);
+        }
+
+        return response()->json([
+            'status' => true,
+            'course' => $this->formatCourse($course)
+        ]);
+    }
+    
+
+    private function formatCourse($course)
+    {
+        $instructor = $course->instructor;
+        $instructorName = $instructor ? $instructor->first_name . ' ' . $instructor->last_name : 'Unknown';
+        $instructorHeadline = $instructor ? $instructor->headline : null;
+
+        $lessons = $course->syllabuses->flatMap->lessons;
+        $totalDuration = $lessons->sum('duration'); // minutes
+        $lectureCount = $lessons->count();
+
+        $ratingCount = $course->reviews->count();
+        $averageRating = $ratingCount > 0 ? round($course->reviews->avg('rating'), 1) : 0;
+
+        return [
+            'title'               => $course->title,
+            'price'               => round($course->price, 2),
+            'level'               => $this->mapLevel($course->levels),
+            'image'               => $course->image,
+            'overview'            => $course->overview,
+            'category'            => $course->category->name ?? 'Unknown',
+            'instructor_name'     => $instructorName,
+            'instructor_headline' => $instructorHeadline,
+            'average_rating'      => $averageRating,
+            'rating_count'        => $ratingCount,
+            'total_hours'         => round($totalDuration / 60, 2),
+            'lectures'            => $lectureCount,
+        ];
     }
 
     private function mapLevel($level)
@@ -57,35 +103,6 @@ class CourseController extends Controller
         };
     }
 
-    //API to fetch courses filtered by specific category
-    public function filterByCategory($category)
-    {
-        $category = Category::where('id', $category)
-            ->orWhere('title', $category)
-            ->first();
-        if (!$category) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Category not found'
-            ], 404);
-        }
-        $courses = Course::where('category_id', $category->id)->get();
-        return response()->json([
-            'status' => true,
-            'category' => $category->title,
-            'courses' => $courses
-        ]);
-    }
-
-    //API to fetch complete details of a single course
-    public function showCourseDetails($id)
-    {
-        $course = Course::with('syllabuses.lessons')->findOrFail($id);
-        return response()->json([
-            'status' => true,
-            'course' => $course,
-        ]);
-    }
 
 
 

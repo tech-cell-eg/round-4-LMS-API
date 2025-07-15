@@ -47,6 +47,10 @@ return [
         ],
     ],
 
+
+
+    
+
     /*
     |--------------------------------------------------------------------------
     | User Providers
@@ -74,6 +78,9 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_INSTRUCTOR_MODEL', App\Models\Instructor::class),
         ],
+
+
+        
 
         // 'users' => [
         //     'driver' => 'database',

@@ -13,6 +13,7 @@ class InstructorSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
+
     {
         $firstNames = ['John', 'Jane', 'Alice', 'Bob', 'Tom', 'Sara', 'Mike', 'Lily', 'Dave', 'Nina'];
         $lastNames = ['Smith', 'Doe', 'Brown', 'Johnson', 'Taylor', 'Lee', 'Wilson', 'Clark', 'Hall', 'Adams'];
@@ -23,7 +24,7 @@ class InstructorSeeder extends Seeder
                 'last_name'          => $lastNames[$i],
                 'username'           => strtolower($firstNames[$i]) . '.' . strtolower($lastNames[$i]),
                 'email'              => strtolower($firstNames[$i]) . $i . '@example.com',
-                'password'           => Hash::make('password'),
+                'password'           => Hash::make('password'), 
                 'email_verified_at'  => now(),
                 'headline'           => 'Expert in ' . ['Laravel', 'Vue.js', 'UI/UX', 'DevOps', 'Python'][$i % 5],
                 'about'              => 'This is a sample instructor bio for ' . $firstNames[$i],
