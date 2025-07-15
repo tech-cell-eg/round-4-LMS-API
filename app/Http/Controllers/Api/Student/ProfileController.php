@@ -18,7 +18,7 @@ class ProfileController extends Controller
             return response()->json([
                 'message' => 'No courses found for this user',
                 'courses' => [],
-            ], 404);
+            ], 200);
         }
 
         return response()->json([
@@ -73,7 +73,7 @@ class ProfileController extends Controller
             return response()->json([
                 'message' => 'No chats found for this user',
                 'chats' => [],
-            ], 404);
+            ], 200);
         }
 
         $chats = $chats->map(function ($chat) {
@@ -98,7 +98,7 @@ class ProfileController extends Controller
         if (!$chat) {
             return response()->json([
                 'message' => 'Chat not found',
-            ], 404);
+            ], 200);
         }
 
         $messages = $chat->messages->map(function ($message) {

@@ -18,7 +18,7 @@ class InstructorProfileController extends Controller
     {
         $instructor = Instructor::with(['courses.enrollments', 'reviews', 'social'])
             ->where('username', $instructorUsername)
-            ->firstOrFail();
+            ->first();
 
         if (!$instructor) {
             return response()->json([

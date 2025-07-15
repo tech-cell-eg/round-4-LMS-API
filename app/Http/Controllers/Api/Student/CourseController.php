@@ -62,6 +62,7 @@ class CourseController extends Controller
             'course' => $this->formatCourse($course)
         ]);
     }
+    
 
     private function formatCourse($course)
     {
@@ -126,6 +127,11 @@ public function showInstructorInfoRelatedToCourse($id)
         'course_title' => $course->title,
         'instructor'   => new InstructorInfoRelatedToCource($instructor),
     ], 'Instructor data fetched successfully');
-}
+} 
+
+    public function show()
+    {
+        return 1;
+    }
 
 }

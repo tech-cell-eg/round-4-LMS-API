@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->float('duration')->default(0);
             $table->string('video_url')->nullable();
-             $table->timestamps();
+            $table->timestamps();
         });
     }
 

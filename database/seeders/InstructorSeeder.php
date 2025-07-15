@@ -13,6 +13,7 @@ class InstructorSeeder extends Seeder
      * Run the database seeds.
      */
     public function run(): void
+
     {
         $firstNames = ['John', 'Jane', 'Alice', 'Bob', 'Tom', 'Sara', 'Mike', 'Lily', 'Dave', 'Nina'];
         $lastNames = ['Smith', 'Doe', 'Brown', 'Johnson', 'Taylor', 'Lee', 'Wilson', 'Clark', 'Hall', 'Adams'];
