@@ -27,16 +27,21 @@ Route::group(['middleware' => ['auth:sanctum', 'is_instructor']], function () {
     Route::post('/courses', [InstructorCourseController::class, 'store']);
     Route::get('/test/courses/{slug}', [InstructorCourseController::class, 'show']);
     Route::get('/instructor/dashboard', [\App\Http\Controllers\Api\DashboardController::class, 'index']);
+
+    //  Commission API
+    Route::get('/instructor/commissions', [\App\Http\Controllers\Api\Instructor\CommissionController::class, 'index']);
+
+    //  Coupons APIs
     Route::get('coupons', [CouponController::class, 'index']);
     Route::post('coupons', [CouponController::class, 'store']);
     Route::get('coupons/{coupon}', [CouponController::class, 'show']);
     Route::match(['put', 'patch'], 'coupons/{coupon}', [CouponController::class, 'update']);
     Route::delete('coupons/{coupon}', [CouponController::class, 'destroy']);
+    
     Route::get('/transactions', [TransactionsController::class, 'getTransactionsJson']);
     Route::post('/courses/{course}/settings', [CourseSettingController::class, 'store']);
     Route::get('/instructor/{id}/courses-dashboard', [InstructorCourseController::class, 'DashboardInstructorCourses']);
   
-    // Route::get('/instructors/{id}/reviews', [InstructorReviewController::class, 'index']);
     Route::get('/chapters', [InstructorCourseController::class, 'chapter']);
     Route::get('/chapters/{id}', [InstructorCourseController::class, 'chapterdetails']);
     Route::delete('/chapters/{id}', [InstructorCourseController::class, 'destroy']);
@@ -58,7 +63,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/courses/{course}/instructor', [CourseController::class, 'showInstructorInfoRelatedToCourse']);
     Route::get('/courses/category/{category}', [CourseController::class, 'filterByCategory']);
     Route::get('/course/{id}', [CourseController::class, 'showCourseDetails']);
-
 
     // Cart routes
     Route::get('/courses', [CourseController::class, 'index']);
@@ -87,6 +91,4 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
 Route::get('courses/{courseId}/syllabuses', [SyllabusController::class, 'index']);
 Route::get('courses/{courseId}/reviews', [ReviewController::class, 'index']);
-
 Route::get('/courses', [CourseController::class, 'index']);
-
