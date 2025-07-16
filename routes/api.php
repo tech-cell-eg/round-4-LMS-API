@@ -80,8 +80,6 @@ Route::middleware(['auth:sanctum', 'is_instructor'])->group(function () {
     Route::get('/syllabus/{id}/seo', [SyllabusSeoController::class, 'show']);
     Route::post('/syllabus/{id}/seo', [SyllabusSeoController::class, 'store']);
 
-});
-
     // Course Customers
     Route::get('/courses/{course}/customers', [CourseCustomerController::class, 'index']);
 
