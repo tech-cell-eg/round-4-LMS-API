@@ -22,5 +22,16 @@ class Syllabus extends Model
         return $this->hasMany(Lesson::class);
     }
 
+    public function resources()
+    {
+        return $this->hasOne(SyllabusResource::class);
+    }
+
+    public function seo()
+    {
+        return $this->hasOne(SyllabusSeo::class);
+    }
+
+
 
 }
