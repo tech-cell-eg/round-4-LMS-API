@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api\Instructor;
 
+use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\CartItem;
 use Illuminate\Http\JsonResponse;

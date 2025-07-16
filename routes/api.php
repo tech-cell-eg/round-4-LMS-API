@@ -22,8 +22,13 @@ use App\Http\Controllers\Api\Student\InstructorProfileController;
 use App\Http\Controllers\Api\Student\ProfileController;
 use App\Http\Controllers\Api\Student\ReviewController;
 use App\Http\Controllers\Api\Student\SyllabusController;
-use App\Http\Controllers\CourseCustomerController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\Instructor\CouponController;
+use App\Http\Controllers\Api\Instructor\CourseSettingController;
+use App\Http\Controllers\Api\Instructor\TransactionsController;
+use App\Http\Controllers\Api\Instructor\CourseCustomerController;
+use Illuminate\Support\Facades\Route;
+ main
 
 /*
 |--------------------------------------------------------------------------
