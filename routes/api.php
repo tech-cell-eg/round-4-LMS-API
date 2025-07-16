@@ -14,8 +14,9 @@ use App\Http\Controllers\Api\Student\SyllabusController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Instructor\CouponController;
 use App\Http\Controllers\Api\Instructor\CourseSettingController;
-use App\Http\Controllers\CourseCustomerController;
+// use App\Http\Controllers\CourseCustomerController;
 use App\Http\Controllers\Api\Instructor\TransactionsController;
+use App\Http\Controllers\Api\Instructor\CourseCustomerController;
 
 // Auth routes
 Route::controller(AuthController::class)->group(function () {
