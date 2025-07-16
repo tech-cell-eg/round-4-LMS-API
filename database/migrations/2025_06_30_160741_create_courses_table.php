@@ -21,6 +21,7 @@ return new class extends Migration
             ->constrained('instructors')
             ->onDelete('cascade');
             $table->string('title');
+            $table->enum('status', ['draft', 'published'])->default('draft');
             $table->string('image')->nullable();
             $table->string('video')->nullable();
             $table->text('overview')->nullable();
