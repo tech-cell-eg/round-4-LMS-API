@@ -12,7 +12,7 @@ class CourseController extends Controller
 {
 
     // Show all courses
- public function index()
+    public function index()
     {
         $courses = Course::with(['category', 'instructor', 'reviews', 'syllabuses.lessons'])->get();
         $formattedCourses = $courses->map(function ($course) {
@@ -23,6 +23,7 @@ class CourseController extends Controller
             'courses' => $formattedCourses,
         ]);
     }
+
     public function filterByCategory($category)
     {
         $category = Category::where('id', $category)
@@ -62,7 +63,7 @@ class CourseController extends Controller
             'course' => $this->formatCourse($course)
         ]);
     }
-    
+
 
     private function formatCourse($course)
     {
@@ -78,20 +79,39 @@ class CourseController extends Controller
         $averageRating = $ratingCount > 0 ? round($course->reviews->avg('rating'), 1) : 0;
 
         return [
-            'title'               => $course->title,
-            'price'               => round($course->price, 2),
-            'level'               => $this->mapLevel($course->levels),
-            'image'               => $course->image,
-            'overview'            => $course->overview,
-            'category'            => $course->category->name ?? 'Unknown',
-            'instructor_name'     => $instructorName,
+            'id' => $course->id,
+            'title' => $course->title,
+            'price' => round($course->price, 2),
+            'level' => $this->mapLevel($course->levels),
+            'image' => $course->image,
+            'overview' => $course->overview,
+            'certifications' => $course->certifications,
+            'category' => $course->category->title ?? 'Unknown',
+            'instructor_name' => $instructorName,
             'instructor_headline' => $instructorHeadline,
-            'average_rating'      => $averageRating,
-            'rating_count'        => $ratingCount,
-            'total_hours'         => round($totalDuration / 60, 2),
-            'lectures'            => $lectureCount,
+            'average_rating' => $averageRating,
+            'rating_count' => $ratingCount,
+            'total_hours' => round($totalDuration / 60, 2),
+            'lectures' => $lectureCount,
+            'syllabuses' => $course->syllabuses->map(function ($syllabus) {
+                return [
+                    'id' => $syllabus->id,
+                    'title' => $syllabus->title,
+                    'description' => $syllabus->description,
+                    'hours' => $syllabus->hours,
+                    'lessons' => $syllabus->lessons->map(function ($lesson) {
+                        return [
+                            'id' => $lesson->id,
+                            'title' => $lesson->title,
+                            'description' => $lesson->description,
+                            'duration' => $lesson->duration,
+                        ];
+                    }),
+                ];
+            }),
         ];
     }
+
 
     private function mapLevel($level)
     {
@@ -104,30 +124,28 @@ class CourseController extends Controller
     }
 
 
+    public function showInstructorInfoRelatedToCourse($id)
+    {
+        $course = Course::find($id);
 
+        if (!$course) {
+            return ApiResponse::sendResponse([], 'Course not found', 404);
+        }
 
-public function showInstructorInfoRelatedToCourse($id)
-{
-    $course = Course::find($id);
+        $instructor = $course->instructor()
+            ->with(['courses.enrollments', 'courses.reviews', 'social'])
+            ->first();
 
-    if (!$course) {
-        return ApiResponse::sendResponse([], 'Course not found', 404);
+        if (!$instructor) {
+            return ApiResponse::sendResponse([], 'Instructor not found', 404);
+        }
+
+        return ApiResponse::sendResponse([
+            'course_id' => $course->id,
+            'course_title' => $course->title,
+            'instructor' => new InstructorInfoRelatedToCource($instructor),
+        ], 'Instructor data fetched successfully');
     }
-
-    $instructor = $course->instructor()
-        ->with(['courses.enrollments', 'courses.reviews', 'social'])
-        ->first();
-
-    if (!$instructor) {
-        return ApiResponse::sendResponse([], 'Instructor not found', 404);
-    }
-
-    return ApiResponse::sendResponse([
-        'course_id'    => $course->id,
-        'course_title' => $course->title,
-        'instructor'   => new InstructorInfoRelatedToCource($instructor),
-    ], 'Instructor data fetched successfully');
-} 
 
     public function show()
     {
