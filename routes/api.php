@@ -1,16 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\DashboardController;
-use App\Http\Controllers\Api\PaymentController;
-use App\Http\Controllers\Api\Instructor\CourseController as InstructorCourseController;
+use App\Http\Controllers\Api\Instructor\CommissionController;
 use App\Http\Controllers\Api\Instructor\CouponController;
+use App\Http\Controllers\Api\Instructor\CourseController as InstructorCourseController;
+use App\Http\Controllers\Api\Instructor\CourseDetailsController;
 use App\Http\Controllers\Api\Instructor\CourseSettingController;
-use App\Http\Controllers\Api\Instructor\TransactionsController;
 use App\Http\Controllers\Api\Instructor\InstructorCourseReviewsController;
 use App\Http\Controllers\Api\Instructor\InstructorReviewController;
-use App\Http\Controllers\Api\Instructor\CommissionController;
+use App\Http\Controllers\Api\Instructor\TransactionsController;
+use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\Student\CartController;
 use App\Http\Controllers\Api\Student\CategoryController;
 use App\Http\Controllers\Api\Student\CourseController;
@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\Student\ProfileController;
 use App\Http\Controllers\Api\Student\ReviewController;
 use App\Http\Controllers\Api\Student\SyllabusController;
 use App\Http\Controllers\CourseCustomerController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +76,12 @@ Route::middleware(['auth:sanctum', 'is_instructor'])->group(function () {
     Route::get('/chapters/{id}', [InstructorCourseController::class, 'chapterdetails']);
     Route::delete('/chapters/{id}', [InstructorCourseController::class, 'destroy']);
     Route::put('/chapters/{id}/toggle-status', [InstructorCourseController::class, 'toggleStatus']);
+
+    // Create New Course
+    Route::put('/courses/{id}/save-draft', [CourseDetailsController::class, 'saveAsDraft']);
+    Route::put('/courses/{id}/publish', [CourseDetailsController::class, 'publish']);
+    Route::patch('/courses/{id}', [CourseDetailsController::class, 'update']);
+
 });
 
 /*

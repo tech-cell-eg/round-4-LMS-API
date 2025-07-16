@@ -10,6 +10,8 @@ class Syllabus extends Model
     use HasFactory;
     protected $guarded = [];
 
+    protected $table = 'syllabuses';
+
     public function course()
     {
         return $this->belongsTo(Course::class);
