@@ -13,10 +13,10 @@
         });
 
         // Subscribe to the public channel
-        var channel = pusher.subscribe('public-reviews');
+        var channel = pusher.subscribe('public-messages');
 
-        // Listen for the event (make sure it's broadcasted as .new-review)
-        channel.bind('new-review', function(data) {
+        // Listen for the event (make sure it's broadcasted as .new-message)
+        channel.bind('new-message', function(data) {
             alert('🔔 New Review Received:\n' + JSON.stringify(data, null, 2));
         });
     </script>
@@ -24,8 +24,8 @@
 <body>
 <h1>Pusher Real-Time Test</h1>
 <p>
-    Listening on channel <code>public-reviews</code><br>
-    for event <code>new-review</code>
+    Listening on channel <code>public-messages</code><br>
+    for event <code>new-message</code>
 </p>
 </body>
 </html>

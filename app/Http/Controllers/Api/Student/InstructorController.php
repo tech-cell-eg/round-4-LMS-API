@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api\Student;
 
+use App\Events\NewReviewEvent;
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CourseResource;
 use App\Models\Instructor;
+use App\Notifications\NewReviewNotification;
 use Illuminate\Http\Request;
 
 class InstructorController extends Controller
@@ -46,11 +48,20 @@ class InstructorController extends Controller
         }
 
         // إذا لم يكن هناك تقييم سابق، أنشئ تقييم جديد
-        $instructor->reviews()->create([
+        $review = $instructor->reviews()->create([
             'user_id' => $userId,
             'rating'  => $request->rating,
             'comment' => $request->comment,
         ]);
+
+        $reviewable = $review->reviewable;
+        $notifiable = $reviewable->instructor ?? $reviewable->owner;
+
+        if ($notifiable) {
+            $notification = new NewReviewNotification($review);
+            $notifiable->notify($notification);
+            $notification->broadcastTo($notifiable);
+        }
 
         return response()->json([
             'message' => 'Review created successfully'
