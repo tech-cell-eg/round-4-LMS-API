@@ -4,23 +4,21 @@ namespace App\Http\Controllers\Api\Student;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CourseResource;
 use App\Http\Resources\InstructorInfoRelatedToCource;
 use App\Models\Category;
 use App\Models\Course;
 
 class CourseController extends Controller
 {
-
     // Show all courses
     public function index()
     {
-        $courses = Course::with(['category', 'instructor', 'reviews', 'syllabuses.lessons'])->get();
-        $formattedCourses = $courses->map(function ($course) {
-            return $this->formatCourse($course);
-        });
+        $courses = Course::with(['category', 'instructor', 'reviews', 'syllabuses.lessons', 'enrollments'])->get();
+
         return response()->json([
             'status' => true,
-            'courses' => $formattedCourses,
+            'courses' => CourseResource::collection($courses),
         ]);
     }
 
@@ -29,28 +27,35 @@ class CourseController extends Controller
         $category = Category::where('id', $category)
             ->orWhere('title', $category)
             ->first();
+
         if (!$category) {
             return response()->json([
                 'status' => false,
                 'message' => 'Category not found'
             ], 404);
         }
-        $courses = Course::with(['category', 'instructor', 'reviews', 'syllabuses.lessons'])
+
+        $courses = Course::with(['category', 'instructor', 'reviews', 'syllabuses.lessons', 'enrollments'])
             ->where('category_id', $category->id)
             ->get();
-        $formattedCourses = $courses->map(function ($course) {
-            return $this->formatCourse($course);
-        });
+
         return response()->json([
             'status' => true,
             'category' => $category->title,
-            'courses' => $formattedCourses,
+            'courses' => CourseResource::collection($courses),
         ]);
     }
 
     public function showCourseDetails($id)
     {
-        $course = Course::with(['category', 'instructor', 'reviews', 'syllabuses.lessons'])->find($id);
+        $course = Course::with([
+            'category',
+            'instructor',
+            'reviews.user',
+            'syllabuses.lessons',
+            'enrollments'
+        ])->find($id);
+
         if (!$course) {
             return response()->json([
                 'status' => false,
@@ -60,69 +65,9 @@ class CourseController extends Controller
 
         return response()->json([
             'status' => true,
-            'course' => $this->formatCourse($course)
+            'course' => new CourseResource($course),
         ]);
     }
-
-
-    private function formatCourse($course)
-    {
-        $instructor = $course->instructor;
-        $instructorName = $instructor ? $instructor->first_name . ' ' . $instructor->last_name : 'Unknown';
-        $instructorHeadline = $instructor ? $instructor->headline : null;
-
-        $lessons = $course->syllabuses->flatMap->lessons;
-        $totalDuration = $lessons->sum('duration'); // minutes
-        $lectureCount = $lessons->count();
-
-        $ratingCount = $course->reviews->count();
-        $averageRating = $ratingCount > 0 ? round($course->reviews->avg('rating'), 1) : 0;
-
-        return [
-            'id' => $course->id,
-            'title' => $course->title,
-            'price' => round($course->price, 2),
-            'level' => $this->mapLevel($course->levels),
-            'image' => $course->image,
-            'overview' => $course->overview,
-            'certifications' => $course->certifications,
-            'category' => $course->category->title ?? 'Unknown',
-            'instructor_name' => $instructorName,
-            'instructor_headline' => $instructorHeadline,
-            'average_rating' => $averageRating,
-            'rating_count' => $ratingCount,
-            'total_hours' => round($totalDuration / 60, 2),
-            'lectures' => $lectureCount,
-            'syllabuses' => $course->syllabuses->map(function ($syllabus) {
-                return [
-                    'id' => $syllabus->id,
-                    'title' => $syllabus->title,
-                    'description' => $syllabus->description,
-                    'hours' => $syllabus->hours,
-                    'lessons' => $syllabus->lessons->map(function ($lesson) {
-                        return [
-                            'id' => $lesson->id,
-                            'title' => $lesson->title,
-                            'description' => $lesson->description,
-                            'duration' => $lesson->duration,
-                        ];
-                    }),
-                ];
-            }),
-        ];
-    }
-
-
-    private function mapLevel($level)
-    {
-        return match ($level) {
-            0 => 'Beginner',
-            1 => 'Intermediate',
-            2 => 'Advanced',
-            default => 'All Levels',
-        };
-    }
-
 
     public function showInstructorInfoRelatedToCourse($id)
     {
@@ -151,5 +96,4 @@ class CourseController extends Controller
     {
         return 1;
     }
-
 }
