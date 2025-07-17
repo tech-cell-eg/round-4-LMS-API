@@ -140,10 +140,6 @@ public function chapter()
         }
 
         $chapter = Syllabus::with('course')->findOrFail($id);
-
-        if ($chapter->course->instructor_id !== $user->id) {
-            return response()->json(['status' => false, 'message' => 'You do not have access to this chapter.'], 403);
-        }
         $data = [
             'title'       => $chapter->title,
             'subtitle'    => $chapter->subtitle,
@@ -173,11 +169,6 @@ public function chapter()
         }
 
         $chapter = Syllabus::with('course')->findOrFail($id);
-
-        if ($chapter->course->instructor_id !== $user->id) {
-            return response()->json(['status' => false, 'message' => 'You do not have access to delete this chapter.'], 403);
-        }
-
         $chapter->delete();
 
         return response()->json(['status' => true, 'message' => 'Chapter deleted successfully.']);
@@ -200,9 +191,6 @@ public function chapter()
 
             $chapter = Syllabus::with('course')->findOrFail($id);
 
-            if ($chapter->course->instructor_id !== $user->id) {
-                return response()->json(['status' => false, 'message' => 'Unauthorized'], 403);
-            }
             $oldStatus = $chapter->status;
             $chapter->status = $oldStatus === 'published' ? 'draft' : 'published';
             $chapter->save();
