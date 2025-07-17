@@ -8,6 +8,9 @@ class CourseResource extends JsonResource
 {
     public function toArray($request)
     {
+        $totalDuration = $this->syllabuses->flatMap->lessons->sum('duration');
+        $totalLectures = $this->syllabuses->flatMap->lessons->count();
+
         return [
             'id' => $this->id,
             'slug' => $this->slug,
@@ -17,21 +20,25 @@ class CourseResource extends JsonResource
             'description' => $this->description,
             'certifications' => $this->certifications,
             'languages' => $this->languages,
-            'levels' => $this->levels == 1 ? 'All levels' : $this->levels,
-            'price' => $this->price,
+            'level' => match ((int) $this->levels) {
+                0 => 'Beginner',
+                1 => 'Intermediate',
+                2 => 'Advanced',
+                default => 'All Levels',
+            },
+            'price' => round($this->price, 2),
             'discount' => $this->discount,
             'tax' => $this->tax,
-            'total_hours' => $this->relationLoaded('syllabuses') ? $this->syllabuses->sum(function ($syllabus) {
-                return $this->relationLoaded('lessons') ? $syllabus->lessons->sum('duration') : 0;
-            }) : 0,
-            'total_lectures' => $this->syllabuses->sum('lessons_count'),
-            'average_rating' => $this->reviews->avg('rating') ?? 0,
+            'total_hours' => round($totalDuration / 60, 2),
+            'total_lectures' => $totalLectures,
+            'average_rating' => round($this->reviews->avg('rating'), 1) ?? 0,
             'reviews_count' => $this->reviews->count(),
             'students_count' => $this->enrollments->count(),
+            'category' => $this->category?->title ?? 'Unknown',
             'instructor' => [
                 'name' => $this->instructor ? $this->instructor->first_name . ' ' . $this->instructor->last_name : 'Unknown',
                 'title' => $this->instructor->title ?? 'Instructor',
-                'bio' => $this->instructor->about ?? 'Unknown',
+                'bio' => $this->instructor->about ?? '',
                 'total_reviews' => $this->instructor->reviews()->count(),
                 'total_students' => $this->instructor->courses()->withCount('enrollments')->get()->sum('enrollments_count'),
                 'total_courses' => $this->instructor->courses()->count(),
@@ -40,8 +47,8 @@ class CourseResource extends JsonResource
                 return [
                     'title' => $syllabus->title,
                     'description' => $syllabus->description,
-                    'lessons_count' => $syllabus->lessons_count,
-                    'hours' => $this->relationLoaded('lessons') ? $syllabus->lessons->sum('duration') : $syllabus->hours,
+                    'lessons_count' => $syllabus->lessons->count(),
+                    'hours' => round($syllabus->lessons->sum('duration') / 60, 2),
                     'lessons' => $syllabus->lessons->map(function ($lesson) {
                         return [
                             'title' => $lesson->title,
@@ -55,11 +62,10 @@ class CourseResource extends JsonResource
                 return [
                     'rating' => $review->rating,
                     'comment' => $review->comment,
-                    'user_name' => $review->user->name,
+                    'user_name' => $review->user->name ?? 'Anonymous',
                     'created_at' => $review->created_at->format('jS F, Y'),
                 ];
             }),
         ];
     }
 }
-
