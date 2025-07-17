@@ -43,15 +43,15 @@ class Instructor extends Authenticatable
         return $this->morphMany(Review::class, 'reviewable');
     }
 
-    public function getTotalStudentsAttribute()
-    {
-        return $this->courses->sum(fn($course) => $course->enrollments->count());
-    }
+    // public function getTotalStudentsAttribute()
+    // {
+    //     return $this->courses->sum(fn($course) => $course->enrollments->count());
+    // }
 
-    public function getTotalReviewsAttribute()
-    {
-        return $this->courses->sum(fn($course) => $course->reviews->count());
-    }
+    // public function getTotalReviewsAttribute()
+    // {
+    //     return $this->courses->sum(fn($course) => $course->reviews->count());
+    // }
 
      public function coupons()
     {

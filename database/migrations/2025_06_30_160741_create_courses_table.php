@@ -22,6 +22,7 @@ return new class extends Migration
             ->onDelete('cascade');
             $table->string('title');
             $table->string('image')->nullable();
+            $table->string('video')->nullable();
             $table->text('overview')->nullable();
             $table->text('description')->nullable();
             $table->text('certifications')->nullable();
