@@ -21,14 +21,10 @@ use App\Http\Controllers\Api\Student\InstructorController;
 use App\Http\Controllers\Api\Student\InstructorProfileController;
 use App\Http\Controllers\Api\Student\ProfileController;
 use App\Http\Controllers\Api\Student\ReviewController;
+use App\Http\Controllers\Api\Student\StudentProfileController;
 use App\Http\Controllers\Api\Student\SyllabusController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\Instructor\CouponController;
-use App\Http\Controllers\Api\Instructor\CourseSettingController;
-use App\Http\Controllers\Api\Instructor\TransactionsController;
 use App\Http\Controllers\Api\Instructor\CourseCustomerController;
 use Illuminate\Support\Facades\Route;
- main
 
 /*
 |--------------------------------------------------------------------------
@@ -149,6 +145,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/instructors/{instructor}/reviews', [InstructorController::class, 'index']);
     Route::get('/top-instructors', [InstructorController::class, 'topInstructors']);
     Route::get('/instructors/{instructor}/courses', [InstructorController::class, 'showInstructorCourses']);
+
+    Route::get('/student/profile', [StudentProfileController::class, 'show']);
+    Route::put('/student/profile', [StudentProfileController::class, 'update']);
+
 });
 
 /*
