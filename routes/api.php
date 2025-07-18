@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Instructor\CouponController;
 use App\Http\Controllers\Api\Instructor\CourseController as InstructorCourseController;
 use App\Http\Controllers\Api\Instructor\CourseDetailsController;
 use App\Http\Controllers\Api\Instructor\CourseSettingController;
+use App\Http\Controllers\Api\Instructor\InstructorChatController;
 use App\Http\Controllers\Api\Instructor\InstructorCourseReviewsController;
 use App\Http\Controllers\Api\Instructor\InstructorReviewController;
 use App\Http\Controllers\Api\Instructor\TransactionsController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Api\Instructor\SyllabusSeoController;
 use App\Http\Controllers\Api\Instructor\CommissionController;
 use App\Http\Controllers\Api\Student\CartController;
 use App\Http\Controllers\Api\Student\CategoryController;
+use App\Http\Controllers\Api\Student\ChatController;
 use App\Http\Controllers\Api\Student\CourseController;
 use App\Http\Controllers\Api\Student\InstructorController;
 use App\Http\Controllers\Api\Student\InstructorProfileController;
@@ -95,6 +97,11 @@ Route::middleware(['auth:sanctum', 'is_instructor'])->group(function () {
     Route::put('/courses/{id}/publish', [CourseDetailsController::class, 'publish']);
     Route::patch('/courses/{id}', [CourseDetailsController::class, 'update']);
 
+    // Chat
+    Route::get('/chats', [InstructorChatController::class, 'chats']);
+    Route::get('/chats/{chatId}', [InstructorChatController::class, 'messages']);
+    Route::post('/student/{studentUsername}/chat', [InstructorChatController::class, 'sendMessage']);
+
 });
 
 /*
@@ -110,8 +117,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/my-courses', [ProfileController::class, 'myCourses']);
     Route::get('/my-instructors', [ProfileController::class, 'myInstructors']);
     Route::get('/my-reviews', [ProfileController::class, 'myReviews']);
-    Route::get('/my-chats', [ProfileController::class, 'myChats']);
-    Route::get('/my-chats/{chatId}', [ProfileController::class, 'GetMessages']);
+
 
     // Courses
     Route::get('/courses', [CourseController::class, 'index']);
@@ -148,6 +154,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/student/profile', [StudentProfileController::class, 'show']);
     Route::put('/student/profile', [StudentProfileController::class, 'update']);
+
+    // Chat
+    Route::get('/my-chats', [ChatController::class, 'myChats']);
+    Route::get('/my-chats/{chatId}', [ChatController::class, 'GetMessages']);
+    Route::post('/instructor/{instructorUsername}/chat', [ChatController::class, 'sendMessage']);
 
 });
 

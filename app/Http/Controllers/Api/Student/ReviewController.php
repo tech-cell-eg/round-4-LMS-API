@@ -42,16 +42,11 @@ class ReviewController extends Controller
         $reviewable = $review->reviewable;
         $notifiable = $reviewable->instructor ?? $reviewable->owner;
 
-        $notifiable?->notify(new NewReviewNotification($review));
-
-        event(new NewReviewEvent([
-            'review_id' => $review->id,
-            'rating' => $review->rating,
-            'comment' => $review->comment,
-            'user_name' => $review->user->name,
-            'reviewed_type' => class_basename($review->reviewable_type),
-            'reviewed_id' => $review->reviewable_id,
-        ]));
+        if ($notifiable) {
+            $notification = new NewReviewNotification($review);
+            $notifiable->notify($notification);
+            $notification->broadcastTo($notifiable);
+        }
 
         return ApiResponse::sendResponse(new ReviewResource($review), 'Review created successfully.', 201);
     }
